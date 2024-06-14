@@ -15,10 +15,11 @@
   "alwaysUpdateLinks": true,
   "showUnsupportedFiles": true,
   "userIgnoreFilters": [
-    "Plan",
     "Templates/",
     "/.excalidraw.md$/",
-    "License"
+    "Plan et ressources",
+    "README",
+    "LICENSE"
   ],
   "attachmentFolderPath": "./attachments",
   "defaultViewMode": "preview",
