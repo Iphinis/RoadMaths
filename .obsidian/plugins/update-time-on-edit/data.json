@@ -1,0 +1,30 @@
+{
+  "dateFormat": "yyyy-MM-dd'T'HH:mm",
+  "enableCreateTime": false,
+  "headerUpdated": "updated",
+  "headerCreated": "created",
+  "minMinutesBetweenSaves": 1,
+  "ignoreGlobalFolder": [
+    "Templates"
+  ],
+  "ignoreCreatedFolder": [],
+  "enableExperimentalHash": false,
+  "fileHashMap": {
+    "Opérations.md": "4b120f890e00e0de68a94c8349059e5e557617e29dd1deacd1b42d9e0755ce5b",
+    "Bases.md": "300c657768bdd95cea24553cb3ef33563b6bf32b7f28affc88ab93bf7bb49160",
+    "Ensembles.md": "65278a368ca07fffd0d28718dd4519b5e24b6a4ae922ba3d24bfdee6f25b72ae",
+    "Logique.md": "0e8058b246cf6299457b87608fb1446e41eedd7ad8e6f32d37fecbb45a5e771f",
+    "Arithmétique.md": "125e8abeb51778ff737cdb05a3fd00ec46cb416e33a64435532dfadf33531355",
+    "Applications.md": "69656616354b27312059686b4d4ef6e4eb11543c181551ec81e51b053fc69b12",
+    "Newton.md": "8bc5ceedd7a87f81c0f38900332e051f18646ffc8009500c28cd1e2d3ad3b107",
+    "Régularité.md": "2df360efcce174394f22f375e64b4bca6e2cceb351c39370ec012ae725fc5d82",
+    "Géométrie.md": "0b0211b09c88726c2a01b7a68949fafec09ef4a72a3d040bbce9a7401c4d069d",
+    "Trigonométrie.md": "67aaaa4293c8bff85951b178807070ee81d740ec443a10d50ce77a834d70e686",
+    "Mesure.md": "4001d27e40ea370440847183f4016fadd68a7fd1f49bb4197cfea693f89cd862",
+    "Intégration.md": "d7fed0b0e7d9e44a9bb96cee9422b8ce4daede3cdc0da4e9863462dc53b79986",
+    "Fourier.md": "d8b7900357d548424c2eef9696216777a63c39625392d4d80a498610ac6f431e",
+    "Plan et ressources.md": "1ab0b1228d973781368a285cad7d3f2c9bd4beb68127c07254251f42d530e82b",
+    "License.md": "c26c8d68d8856078813d1714297599f867c25393ef1033943db33e746f4c3cc1",
+    "README.md": "bd4b869be73d32694dc9102d3edca102cf1fdcd0d8fe5b3377d801269b7685f3"
+  }
+}

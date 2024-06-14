@@ -1,0 +1,11 @@
+{
+  "accentColor": "",
+  "showViewHeader": true,
+  "nativeMenus": false,
+  "theme": "system",
+  "cssTheme": "",
+  "enabledCssSnippets": [
+    "headers"
+  ],
+  "baseFontSize": 16
+}
