@@ -1,6 +1,7 @@
 ---
-updated: 2024-06-11T17:13
-succ: 
+updated: 2024-07-19T00:28
+succ:
+  - "[[Bases]]"
 done: 
 ---
 

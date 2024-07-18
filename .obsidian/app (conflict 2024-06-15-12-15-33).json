@@ -1,0 +1,29 @@
+{
+  "promptDelete": false,
+  "pdfExportSettings": {
+    "includeName": true,
+    "pageSize": "A4",
+    "landscape": false,
+    "margin": "0",
+    "downscalePercent": 100
+  },
+  "strictLineBreaks": false,
+  "foldHeading": true,
+  "showLineNumber": false,
+  "showIndentGuide": false,
+  "trashOption": "local",
+  "alwaysUpdateLinks": true,
+  "showUnsupportedFiles": true,
+  "userIgnoreFilters": [
+    "Plan",
+    "Templates/",
+    "/.excalidraw.md$/"
+  ],
+  "attachmentFolderPath": "./attachments",
+  "defaultViewMode": "preview",
+  "focusNewTab": false,
+  "livePreview": true,
+  "readableLineLength": true,
+  "showInlineTitle": true,
+  "propertiesInDocument": "source"
+}

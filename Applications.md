@@ -1,9 +1,9 @@
 ---
-updated: 2024-06-13T20:03
+updated: 2024-07-19T00:24
 succ:
-  - "[[Régularité]]"
   - "[[Trigonométrie]]"
   - "[[Mesure]]"
+  - "[[Limite]]"
 done: 
 ---
 

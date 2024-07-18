@@ -1,14 +1,14 @@
 ---
-updated: 2024-06-14T19:15
+updated: 2024-06-15T11:12
 succ: 
 done: true
 ---
-NB: Toutes les mesures ne sont pas prises en compte ici pour le moment, on se restreint à la mesure de Lebesgue, enseignée au lycée et en début d'études supérieures.
+NB: Toutes les mesures ne sont pas prises en compte ici pour le moment, on se restreint à la mesure de Lebesgue, implicitement utilisée au lycée et en début d'études supérieures.
 
 Soit $f : \mathbb{R} \to \mathbb{R}$ une fonction continue.
 Soient $a,b \in \mathbb{R}$ tels que $a < b$.
 # Intégrale
-On note l'intégrale de la fonction $f$ de $a$ à $b$ par $\int_a^b f(x) dx$.
+On note l'intégrale de la fonction $f$ de $a$ à $b$ par $\int_a^b f(x) dx$.w
 C'est l'aire signée de la courbe de la fonction jusqu'à l'axe des abscisses de $a$ à $b$.
 
 ![[Intégration 2024-06-14 18.23.32.excalidraw]]
@@ -53,7 +53,7 @@ Dans les 2 cas, par théorème d'encadrement, $\underset{h \to 0}\lim \tau(x,x+h
 Donc $I : x \mapsto \int_a^x f(t) dt$ est une primitive de $f$, c'est-à-dire que $\boxed{\forall x \in \mathbb{R}, \forall a \in \mathbb{R}, \left(\int_a^x f(t) dt\right)'=f(x)}$
 
 Soit $F$ une primitive quelconque de $f$.
-Alors, par définition, $\exists!C\in \mathbb{R},F = I + C$
+Alors, par définition, $\exists!C\in \mathbb{R}, \forall x \in \mathbb{R},F(x) = I(x) + C$
 
 $$
 F(b) - F(a) = I(b) + C - I(a) - C = I(b) - I(a) = \int_a^b f(t) dt - \int_a^a f(t) dt = \int_a^b f(t) dt
@@ -61,6 +61,42 @@ $$
 
 Ainsi, $\boxed{\forall F \in \mathcal{F}(\mathbb{R},\mathbb{R}), \forall x \in \mathbb{R}, F'(x) = f(x) \Rightarrow \int_a^b f(x) dx = F(b) - F(a) }$
 
+### Remarque
+Peu importe si nous avions pris un autre $x$ pour définir $C$, on retombe sur le même résultat :
+$$
+\begin{align*}
+F(b) + F(a) &= I(b) + C + I(a) + C \\
+&= I(b) + I(a) + 2C \\
+&= \int_a^b f(t) dt + \int_a^a f(t) dt + 2C \\
+&= \int_a^b f(t) dt + 2C
+\end{align*}
+$$
+
+$$
+\begin{align*}
+\int_a^b f(t) dt&=F(b) + F(a)-2C\\
+&=F(b) + F(a)-2(F(a)-I(a))\\
+&=F(b) + F(a)-2F(a)+2I(a)\\
+&=F(b)-F(a)+2I(a)\\
+&=F(b)-F(a)
+\end{align*}$$
+
+$$
+\begin{align*}
+\int_a^b f(t) dt&=F(b) + F(a)-2C\\
+&=F(b) + F(a)-2(F(b)-I(b))\\
+&=F(b) + F(a)-2F(b)+2I(b)\\
+&=-F(b)+F(a)+2I(b)\\
+&=F(a)-F(b)+2I(b)
+\end{align*}
+$$
+donc
+$$
+\begin{align*}
+I(b) &= F(a)-F(b)+2I(b)\\
+\Leftrightarrow 0 &= F(a)-F(b)+I(b)
+\end{align*}
+$$
 
 # Intégrale de Riemann
 ![[Intégration 2024-06-14 17.33.02.excalidraw]]
