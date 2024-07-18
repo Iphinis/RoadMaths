@@ -1,5 +1,5 @@
 {
-  "promptDelete": false,
+  "promptDelete": true,
   "pdfExportSettings": {
     "includeName": true,
     "pageSize": "A4",
@@ -11,7 +11,7 @@
   "foldHeading": true,
   "showLineNumber": false,
   "showIndentGuide": false,
-  "trashOption": "system",
+  "trashOption": "local",
   "alwaysUpdateLinks": true,
   "showUnsupportedFiles": true,
   "userIgnoreFilters": [
@@ -21,7 +21,7 @@
     "README",
     "LICENSE"
   ],
-  "attachmentFolderPath": "./attachments",
+  "attachmentFolderPath": "attachments",
   "defaultViewMode": "preview",
   "focusNewTab": false,
   "livePreview": true,
