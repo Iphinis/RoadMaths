@@ -1,7 +1,7 @@
 ---
-updated: 2024-07-19T00:28
+updated: 2024-08-02T19:27
 succ:
-  - "[[Bases]]"
+  - "[[Bases arithmétiques]]"
 done: 
 ---
 

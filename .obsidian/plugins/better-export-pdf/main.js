@@ -34,6 +34,109 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
 
+// node_modules/.pnpm/deepmerge@4.3.1/node_modules/deepmerge/dist/cjs.js
+var require_cjs = __commonJS({
+  "node_modules/.pnpm/deepmerge@4.3.1/node_modules/deepmerge/dist/cjs.js"(exports, module2) {
+    "use strict";
+    var isMergeableObject = function isMergeableObject2(value) {
+      return isNonNullObject(value) && !isSpecial(value);
+    };
+    function isNonNullObject(value) {
+      return !!value && typeof value === "object";
+    }
+    function isSpecial(value) {
+      var stringValue = Object.prototype.toString.call(value);
+      return stringValue === "[object RegExp]" || stringValue === "[object Date]" || isReactElement(value);
+    }
+    var canUseSymbol = typeof Symbol === "function" && Symbol.for;
+    var REACT_ELEMENT_TYPE = canUseSymbol ? Symbol.for("react.element") : 60103;
+    function isReactElement(value) {
+      return value.$$typeof === REACT_ELEMENT_TYPE;
+    }
+    function emptyTarget(val) {
+      return Array.isArray(val) ? [] : {};
+    }
+    function cloneUnlessOtherwiseSpecified(value, options) {
+      return options.clone !== false && options.isMergeableObject(value) ? deepmerge(emptyTarget(value), value, options) : value;
+    }
+    function defaultArrayMerge(target, source, options) {
+      return target.concat(source).map(function(element) {
+        return cloneUnlessOtherwiseSpecified(element, options);
+      });
+    }
+    function getMergeFunction(key, options) {
+      if (!options.customMerge) {
+        return deepmerge;
+      }
+      var customMerge = options.customMerge(key);
+      return typeof customMerge === "function" ? customMerge : deepmerge;
+    }
+    function getEnumerableOwnPropertySymbols(target) {
+      return Object.getOwnPropertySymbols ? Object.getOwnPropertySymbols(target).filter(function(symbol) {
+        return Object.propertyIsEnumerable.call(target, symbol);
+      }) : [];
+    }
+    function getKeys(target) {
+      return Object.keys(target).concat(getEnumerableOwnPropertySymbols(target));
+    }
+    function propertyIsOnObject(object, property) {
+      try {
+        return property in object;
+      } catch (_) {
+        return false;
+      }
+    }
+    function propertyIsUnsafe(target, key) {
+      return propertyIsOnObject(target, key) && !(Object.hasOwnProperty.call(target, key) && Object.propertyIsEnumerable.call(target, key));
+    }
+    function mergeObject(target, source, options) {
+      var destination = {};
+      if (options.isMergeableObject(target)) {
+        getKeys(target).forEach(function(key) {
+          destination[key] = cloneUnlessOtherwiseSpecified(target[key], options);
+        });
+      }
+      getKeys(source).forEach(function(key) {
+        if (propertyIsUnsafe(target, key)) {
+          return;
+        }
+        if (propertyIsOnObject(target, key) && options.isMergeableObject(source[key])) {
+          destination[key] = getMergeFunction(key, options)(target[key], source[key], options);
+        } else {
+          destination[key] = cloneUnlessOtherwiseSpecified(source[key], options);
+        }
+      });
+      return destination;
+    }
+    function deepmerge(target, source, options) {
+      options = options || {};
+      options.arrayMerge = options.arrayMerge || defaultArrayMerge;
+      options.isMergeableObject = options.isMergeableObject || isMergeableObject;
+      options.cloneUnlessOtherwiseSpecified = cloneUnlessOtherwiseSpecified;
+      var sourceIsArray = Array.isArray(source);
+      var targetIsArray = Array.isArray(target);
+      var sourceAndTargetTypesMatch = sourceIsArray === targetIsArray;
+      if (!sourceAndTargetTypesMatch) {
+        return cloneUnlessOtherwiseSpecified(source, options);
+      } else if (sourceIsArray) {
+        return options.arrayMerge(target, source, options);
+      } else {
+        return mergeObject(target, source, options);
+      }
+    }
+    deepmerge.all = function deepmergeAll(array, options) {
+      if (!Array.isArray(array)) {
+        throw new Error("first argument should be an array");
+      }
+      return array.reduce(function(prev, next) {
+        return deepmerge(prev, next, options);
+      }, {});
+    };
+    var deepmerge_1 = deepmerge;
+    module2.exports = deepmerge_1;
+  }
+});
+
 // node_modules/.pnpm/pako@1.0.11/node_modules/pako/lib/utils/common.js
 var require_common = __commonJS({
   "node_modules/.pnpm/pako@1.0.11/node_modules/pako/lib/utils/common.js"(exports) {
@@ -2076,8 +2179,7 @@ var require_deflate2 = __commonJS({
     var Z_DEFAULT_STRATEGY = 0;
     var Z_DEFLATED = 8;
     function Deflate(options) {
-      if (!(this instanceof Deflate))
-        return new Deflate(options);
+      if (!(this instanceof Deflate)) return new Deflate(options);
       this.options = utils.assign({
         level: Z_DEFAULT_COMPRESSION,
         method: Z_DEFLATED,
@@ -4060,8 +4162,7 @@ var require_inflate2 = __commonJS({
     var GZheader = require_gzheader();
     var toString = Object.prototype.toString;
     function Inflate(options) {
-      if (!(this instanceof Inflate))
-        return new Inflate(options);
+      if (!(this instanceof Inflate)) return new Inflate(options);
       this.options = utils.assign({
         chunkSize: 16384,
         windowBits: 0,
@@ -4244,6 +4345,82 @@ __export(main_exports, {
 module.exports = __toCommonJS(main_exports);
 var import_obsidian5 = require("obsidian");
 
+// src/i18n/index.ts
+var import_deepmerge = __toESM(require_cjs());
+
+// src/i18n/en.ts
+var en_default = {
+  exportCurrentFile: "Export current file to PDF",
+  exportCurrentFileWithPrevious: "Export to PDF with previous Settings",
+  exportDialog: {
+    filenameAsTitle: "Include file name as title",
+    pageSize: "Page Size",
+    margin: "Margin",
+    downscalePercent: "Downscale Percent",
+    landscape: "Landscape",
+    displayHeader: "Display Header",
+    displayFooter: "Display Footer",
+    openAfterExport: "Open after export",
+    cssSnippets: "CSS snippets"
+  },
+  settings: {
+    showTitle: "Add file name as title",
+    displayHeader: "Display headers",
+    displayFooter: "Display footer",
+    printBackground: "Print background",
+    maxLevel: "Max headings level of the outline",
+    displayMetadata: "PDF metadata",
+    headerTemplate: "Header Template",
+    footerTemplate: "Footer Template",
+    isTimestamp: "Add timestamp",
+    enabledCss: "Enable select css snippets",
+    debugMode: "Debug Mode"
+  }
+};
+
+// src/i18n/zh.ts
+var zh_default = {
+  exportCurrentFile: "\u5BFC\u51FA\u5F53\u524D\u6587\u4EF6\u4E3APDF",
+  exportCurrentFileWithPrevious: "\u4F7F\u7528\u4E0A\u4E00\u6B21\u8BBE\u7F6E\u5BFC\u51FA\u4E3APDF",
+  exportDialog: {
+    filenameAsTitle: "\u5C06\u7B14\u8BB0\u540D\u4F5C\u4E3A\u6807\u9898",
+    pageSize: "\u7EB8\u5F20\u5C3A\u5BF8",
+    margin: "\u9875\u8FB9\u8DDD",
+    downscalePercent: "\u7F29\u653E",
+    landscape: "\u6A2A\u5411\u6253\u5370",
+    displayHeader: "\u9875\u7709",
+    displayFooter: "\u9875\u811A",
+    openAfterExport: "\u5BFC\u51FA\u540E\u6253\u5F00",
+    cssSnippets: "CSS\u4EE3\u7801\u7247\u6BB5"
+  },
+  settings: {
+    showTitle: "\u5C06\u7B14\u8BB0\u540D\u4F5C\u4E3A\u6807\u9898",
+    displayHeader: "\u663E\u793A\u9875\u7709",
+    displayFooter: "\u663E\u793A\u9875\u811A",
+    printBackground: "\u6253\u5370\u80CC\u666F",
+    maxLevel: "\u6700\u5927\u6807\u9898\u7EA7\u522B",
+    displayMetadata: "PDF\u5143\u6570\u636E",
+    headerTemplate: "\u9875\u7709\u6A21\u677F",
+    footerTemplate: "\u9875\u811A\u6A21\u677F",
+    isTimestamp: "\u6587\u4EF6\u540D\u6DFB\u52A0\u65F6\u95F4\u6233",
+    enabledCss: "\u542F\u7528CSS\u7247\u6BB5\u9009\u62E9",
+    debugMode: "\u8C03\u8BD5\u6A21\u5F0F"
+  }
+};
+
+// src/i18n/index.ts
+var i18n_default = {
+  i18n: {
+    en: en_default,
+    zh: zh_default
+  },
+  get current() {
+    var _a, _b;
+    const lang = (_a = window.localStorage.getItem("language")) != null ? _a : "en";
+    return (0, import_deepmerge.default)(this.i18n.en, (_b = this.i18n[lang]) != null ? _b : {});
+  }
+};
+
 // src/modal.ts
 var import_obsidian3 = require("obsidian");
 
@@ -4271,9 +4448,7 @@ var extendStatics = function(d, b) {
   extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d2, b2) {
     d2.__proto__ = b2;
   } || function(d2, b2) {
-    for (var p in b2)
-      if (b2.hasOwnProperty(p))
-        d2[p] = b2[p];
+    for (var p in b2) if (b2.hasOwnProperty(p)) d2[p] = b2[p];
   };
   return extendStatics(d, b);
 };
@@ -4288,9 +4463,7 @@ var __assign = function() {
   __assign = Object.assign || function __assign2(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
       s = arguments[i];
-      for (var p in s)
-        if (Object.prototype.hasOwnProperty.call(s, p))
-          t[p] = s[p];
+      for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
     }
     return t;
   };
@@ -4298,9 +4471,8 @@ var __assign = function() {
 };
 function __rest(s, e) {
   var t = {};
-  for (var p in s)
-    if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
-      t[p] = s[p];
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+    t[p] = s[p];
   if (s != null && typeof Object.getOwnPropertySymbols === "function")
     for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
       if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
@@ -4337,8 +4509,7 @@ function __awaiter(thisArg, _arguments, P, generator) {
 }
 function __generator(thisArg, body) {
   var _ = { label: 0, sent: function() {
-    if (t[0] & 1)
-      throw t[1];
+    if (t[0] & 1) throw t[1];
     return t[1];
   }, trys: [], ops: [] }, f, y, t, g;
   return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() {
@@ -4350,70 +4521,63 @@ function __generator(thisArg, body) {
     };
   }
   function step(op) {
-    if (f)
-      throw new TypeError("Generator is already executing.");
-    while (_)
-      try {
-        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done)
-          return t;
-        if (y = 0, t)
-          op = [op[0] & 2, t.value];
-        switch (op[0]) {
-          case 0:
-          case 1:
+    if (f) throw new TypeError("Generator is already executing.");
+    while (_) try {
+      if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+      if (y = 0, t) op = [op[0] & 2, t.value];
+      switch (op[0]) {
+        case 0:
+        case 1:
+          t = op;
+          break;
+        case 4:
+          _.label++;
+          return { value: op[1], done: false };
+        case 5:
+          _.label++;
+          y = op[1];
+          op = [0];
+          continue;
+        case 7:
+          op = _.ops.pop();
+          _.trys.pop();
+          continue;
+        default:
+          if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+            _ = 0;
+            continue;
+          }
+          if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+            _.label = op[1];
+            break;
+          }
+          if (op[0] === 6 && _.label < t[1]) {
+            _.label = t[1];
             t = op;
             break;
-          case 4:
-            _.label++;
-            return { value: op[1], done: false };
-          case 5:
-            _.label++;
-            y = op[1];
-            op = [0];
-            continue;
-          case 7:
-            op = _.ops.pop();
-            _.trys.pop();
-            continue;
-          default:
-            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-              _ = 0;
-              continue;
-            }
-            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
-              _.label = op[1];
-              break;
-            }
-            if (op[0] === 6 && _.label < t[1]) {
-              _.label = t[1];
-              t = op;
-              break;
-            }
-            if (t && _.label < t[2]) {
-              _.label = t[2];
-              _.ops.push(op);
-              break;
-            }
-            if (t[2])
-              _.ops.pop();
-            _.trys.pop();
-            continue;
-        }
-        op = body.call(thisArg, _);
-      } catch (e) {
-        op = [6, e];
-        y = 0;
-      } finally {
-        f = t = 0;
+          }
+          if (t && _.label < t[2]) {
+            _.label = t[2];
+            _.ops.push(op);
+            break;
+          }
+          if (t[2]) _.ops.pop();
+          _.trys.pop();
+          continue;
       }
-    if (op[0] & 5)
-      throw op[1];
+      op = body.call(thisArg, _);
+    } catch (e) {
+      op = [6, e];
+      y = 0;
+    } finally {
+      f = t = 0;
+    }
+    if (op[0] & 5) throw op[1];
     return { value: op[0] ? op[1] : void 0, done: true };
   }
 }
 function __spreadArrays() {
-  for (var s = 0, i = 0, il = arguments.length; i < il; i++)
-    s += arguments[i].length;
+  for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
   for (var r = Array(s), k = 0, i = 0; i < il; i++)
     for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
       r[k] = a[j];
@@ -7554,8 +7718,7 @@ var PDFWriter = (
               idx = 0, len = indirectObjects.length;
               _c.label = 2;
             case 2:
-              if (!(idx < len))
-                return [3, 5];
+              if (!(idx < len)) return [3, 5];
               _b = indirectObjects[idx], ref = _b[0], object = _b[1];
               objectNumber = String(ref.objectNumber);
               offset += copyStringIntoBuffer(objectNumber, buffer, offset);
@@ -7578,8 +7741,7 @@ var PDFWriter = (
               buffer[offset++] = CharCodes_default.Newline;
               buffer[offset++] = CharCodes_default.Newline;
               n = object instanceof PDFObjectStream_default ? object.getObjectsCount() : 1;
-              if (!this.shouldWaitForTick(n))
-                return [3, 4];
+              if (!this.shouldWaitForTick(n)) return [3, 4];
               return [4, waitForTick()];
             case 3:
               _c.sent();
@@ -7631,14 +7793,12 @@ var PDFWriter = (
               idx = 0, len = indirectObjects.length;
               _a.label = 1;
             case 1:
-              if (!(idx < len))
-                return [3, 4];
+              if (!(idx < len)) return [3, 4];
               indirectObject = indirectObjects[idx];
               ref = indirectObject[0];
               xref.addEntry(ref, size);
               size += this.computeIndirectObjectSize(indirectObject);
-              if (!this.shouldWaitForTick(1))
-                return [3, 3];
+              if (!this.shouldWaitForTick(1)) return [3, 3];
               return [4, waitForTick()];
             case 2:
               _a.sent();
@@ -7908,18 +8068,15 @@ var PDFStreamWriter = (
               idx = 0, len = indirectObjects.length;
               _a.label = 1;
             case 1:
-              if (!(idx < len))
-                return [3, 6];
+              if (!(idx < len)) return [3, 6];
               indirectObject = indirectObjects[idx];
               ref = indirectObject[0], object = indirectObject[1];
               shouldNotCompress = ref === this.context.trailerInfo.Encrypt || object instanceof PDFStream_default || object instanceof PDFInvalidObject_default || ref.generationNumber !== 0;
-              if (!shouldNotCompress)
-                return [3, 4];
+              if (!shouldNotCompress) return [3, 4];
               uncompressedObjects.push(indirectObject);
               xrefStream.addUncompressedEntry(ref, size);
               size += this.computeIndirectObjectSize(indirectObject);
-              if (!this.shouldWaitForTick(1))
-                return [3, 3];
+              if (!this.shouldWaitForTick(1)) return [3, 3];
               return [4, waitForTick()];
             case 2:
               _a.sent();
@@ -7945,16 +8102,14 @@ var PDFStreamWriter = (
               idx = 0, len = compressedObjects.length;
               _a.label = 7;
             case 7:
-              if (!(idx < len))
-                return [3, 10];
+              if (!(idx < len)) return [3, 10];
               chunk = compressedObjects[idx];
               ref = objectStreamRefs[idx];
               objectStream = PDFObjectStream_default.withContextAndObjects(this.context, chunk, this.encodeStreams);
               xrefStream.addUncompressedEntry(ref, size);
               size += this.computeIndirectObjectSize([ref, objectStream]);
               uncompressedObjects.push([ref, objectStream]);
-              if (!this.shouldWaitForTick(chunk.length))
-                return [3, 9];
+              if (!this.shouldWaitForTick(chunk.length)) return [3, 9];
               return [4, waitForTick()];
             case 8:
               _a.sent();
@@ -8816,30 +8971,21 @@ var import_pako4 = __toESM(require_pako());
 var UPNG = {};
 UPNG.toRGBA8 = function(out) {
   var w = out.width, h = out.height;
-  if (out.tabs.acTL == null)
-    return [UPNG.toRGBA8.decodeImage(out.data, w, h, out).buffer];
+  if (out.tabs.acTL == null) return [UPNG.toRGBA8.decodeImage(out.data, w, h, out).buffer];
   var frms = [];
-  if (out.frames[0].data == null)
-    out.frames[0].data = out.data;
+  if (out.frames[0].data == null) out.frames[0].data = out.data;
   var len = w * h * 4, img = new Uint8Array(len), empty = new Uint8Array(len), prev = new Uint8Array(len);
   for (var i = 0; i < out.frames.length; i++) {
     var frm = out.frames[i];
     var fx = frm.rect.x, fy = frm.rect.y, fw = frm.rect.width, fh = frm.rect.height;
     var fdata = UPNG.toRGBA8.decodeImage(frm.data, fw, fh, out);
-    if (i != 0)
-      for (var j = 0; j < len; j++)
-        prev[j] = img[j];
-    if (frm.blend == 0)
-      UPNG._copyTile(fdata, fw, fh, img, w, h, fx, fy, 0);
-    else if (frm.blend == 1)
-      UPNG._copyTile(fdata, fw, fh, img, w, h, fx, fy, 1);
+    if (i != 0) for (var j = 0; j < len; j++) prev[j] = img[j];
+    if (frm.blend == 0) UPNG._copyTile(fdata, fw, fh, img, w, h, fx, fy, 0);
+    else if (frm.blend == 1) UPNG._copyTile(fdata, fw, fh, img, w, h, fx, fy, 1);
     frms.push(img.buffer.slice(0));
     if (frm.dispose == 0) {
-    } else if (frm.dispose == 1)
-      UPNG._copyTile(empty, fw, fh, img, w, h, fx, fy, 0);
-    else if (frm.dispose == 2)
-      for (var j = 0; j < len; j++)
-        img[j] = prev[j];
+    } else if (frm.dispose == 1) UPNG._copyTile(empty, fw, fh, img, w, h, fx, fy, 0);
+    else if (frm.dispose == 2) for (var j = 0; j < len; j++) img[j] = prev[j];
   }
   return frms;
 };
@@ -8852,136 +8998,117 @@ UPNG.toRGBA8.decodeImage = function(data, w, h, out) {
   var time = Date.now();
   if (ctype == 6) {
     var qarea = area << 2;
-    if (depth == 8)
-      for (var i = 0; i < qarea; i += 4) {
-        bf[i] = data[i];
-        bf[i + 1] = data[i + 1];
-        bf[i + 2] = data[i + 2];
-        bf[i + 3] = data[i + 3];
-      }
-    if (depth == 16)
-      for (var i = 0; i < qarea; i++) {
-        bf[i] = data[i << 1];
-      }
+    if (depth == 8) for (var i = 0; i < qarea; i += 4) {
+      bf[i] = data[i];
+      bf[i + 1] = data[i + 1];
+      bf[i + 2] = data[i + 2];
+      bf[i + 3] = data[i + 3];
+    }
+    if (depth == 16) for (var i = 0; i < qarea; i++) {
+      bf[i] = data[i << 1];
+    }
   } else if (ctype == 2) {
     var ts = out.tabs["tRNS"];
     if (ts == null) {
-      if (depth == 8)
-        for (var i = 0; i < area; i++) {
-          var ti = i * 3;
-          bf32[i] = 255 << 24 | data[ti + 2] << 16 | data[ti + 1] << 8 | data[ti];
-        }
-      if (depth == 16)
-        for (var i = 0; i < area; i++) {
-          var ti = i * 6;
-          bf32[i] = 255 << 24 | data[ti + 4] << 16 | data[ti + 2] << 8 | data[ti];
-        }
+      if (depth == 8) for (var i = 0; i < area; i++) {
+        var ti = i * 3;
+        bf32[i] = 255 << 24 | data[ti + 2] << 16 | data[ti + 1] << 8 | data[ti];
+      }
+      if (depth == 16) for (var i = 0; i < area; i++) {
+        var ti = i * 6;
+        bf32[i] = 255 << 24 | data[ti + 4] << 16 | data[ti + 2] << 8 | data[ti];
+      }
     } else {
       var tr = ts[0], tg = ts[1], tb = ts[2];
-      if (depth == 8)
-        for (var i = 0; i < area; i++) {
-          var qi = i << 2, ti = i * 3;
-          bf32[i] = 255 << 24 | data[ti + 2] << 16 | data[ti + 1] << 8 | data[ti];
-          if (data[ti] == tr && data[ti + 1] == tg && data[ti + 2] == tb)
-            bf[qi + 3] = 0;
-        }
-      if (depth == 16)
-        for (var i = 0; i < area; i++) {
-          var qi = i << 2, ti = i * 6;
-          bf32[i] = 255 << 24 | data[ti + 4] << 16 | data[ti + 2] << 8 | data[ti];
-          if (rs(data, ti) == tr && rs(data, ti + 2) == tg && rs(data, ti + 4) == tb)
-            bf[qi + 3] = 0;
-        }
+      if (depth == 8) for (var i = 0; i < area; i++) {
+        var qi = i << 2, ti = i * 3;
+        bf32[i] = 255 << 24 | data[ti + 2] << 16 | data[ti + 1] << 8 | data[ti];
+        if (data[ti] == tr && data[ti + 1] == tg && data[ti + 2] == tb) bf[qi + 3] = 0;
+      }
+      if (depth == 16) for (var i = 0; i < area; i++) {
+        var qi = i << 2, ti = i * 6;
+        bf32[i] = 255 << 24 | data[ti + 4] << 16 | data[ti + 2] << 8 | data[ti];
+        if (rs(data, ti) == tr && rs(data, ti + 2) == tg && rs(data, ti + 4) == tb) bf[qi + 3] = 0;
+      }
     }
   } else if (ctype == 3) {
     var p = out.tabs["PLTE"], ap = out.tabs["tRNS"], tl = ap ? ap.length : 0;
-    if (depth == 1)
-      for (var y = 0; y < h; y++) {
-        var s0 = y * bpl, t0 = y * w;
-        for (var i = 0; i < w; i++) {
-          var qi = t0 + i << 2, j = data[s0 + (i >> 3)] >> 7 - ((i & 7) << 0) & 1, cj = 3 * j;
-          bf[qi] = p[cj];
-          bf[qi + 1] = p[cj + 1];
-          bf[qi + 2] = p[cj + 2];
-          bf[qi + 3] = j < tl ? ap[j] : 255;
-        }
-      }
-    if (depth == 2)
-      for (var y = 0; y < h; y++) {
-        var s0 = y * bpl, t0 = y * w;
-        for (var i = 0; i < w; i++) {
-          var qi = t0 + i << 2, j = data[s0 + (i >> 2)] >> 6 - ((i & 3) << 1) & 3, cj = 3 * j;
-          bf[qi] = p[cj];
-          bf[qi + 1] = p[cj + 1];
-          bf[qi + 2] = p[cj + 2];
-          bf[qi + 3] = j < tl ? ap[j] : 255;
-        }
-      }
-    if (depth == 4)
-      for (var y = 0; y < h; y++) {
-        var s0 = y * bpl, t0 = y * w;
-        for (var i = 0; i < w; i++) {
-          var qi = t0 + i << 2, j = data[s0 + (i >> 1)] >> 4 - ((i & 1) << 2) & 15, cj = 3 * j;
-          bf[qi] = p[cj];
-          bf[qi + 1] = p[cj + 1];
-          bf[qi + 2] = p[cj + 2];
-          bf[qi + 3] = j < tl ? ap[j] : 255;
-        }
-      }
-    if (depth == 8)
-      for (var i = 0; i < area; i++) {
-        var qi = i << 2, j = data[i], cj = 3 * j;
+    if (depth == 1) for (var y = 0; y < h; y++) {
+      var s0 = y * bpl, t0 = y * w;
+      for (var i = 0; i < w; i++) {
+        var qi = t0 + i << 2, j = data[s0 + (i >> 3)] >> 7 - ((i & 7) << 0) & 1, cj = 3 * j;
         bf[qi] = p[cj];
         bf[qi + 1] = p[cj + 1];
         bf[qi + 2] = p[cj + 2];
         bf[qi + 3] = j < tl ? ap[j] : 255;
       }
+    }
+    if (depth == 2) for (var y = 0; y < h; y++) {
+      var s0 = y * bpl, t0 = y * w;
+      for (var i = 0; i < w; i++) {
+        var qi = t0 + i << 2, j = data[s0 + (i >> 2)] >> 6 - ((i & 3) << 1) & 3, cj = 3 * j;
+        bf[qi] = p[cj];
+        bf[qi + 1] = p[cj + 1];
+        bf[qi + 2] = p[cj + 2];
+        bf[qi + 3] = j < tl ? ap[j] : 255;
+      }
+    }
+    if (depth == 4) for (var y = 0; y < h; y++) {
+      var s0 = y * bpl, t0 = y * w;
+      for (var i = 0; i < w; i++) {
+        var qi = t0 + i << 2, j = data[s0 + (i >> 1)] >> 4 - ((i & 1) << 2) & 15, cj = 3 * j;
+        bf[qi] = p[cj];
+        bf[qi + 1] = p[cj + 1];
+        bf[qi + 2] = p[cj + 2];
+        bf[qi + 3] = j < tl ? ap[j] : 255;
+      }
+    }
+    if (depth == 8) for (var i = 0; i < area; i++) {
+      var qi = i << 2, j = data[i], cj = 3 * j;
+      bf[qi] = p[cj];
+      bf[qi + 1] = p[cj + 1];
+      bf[qi + 2] = p[cj + 2];
+      bf[qi + 3] = j < tl ? ap[j] : 255;
+    }
   } else if (ctype == 4) {
-    if (depth == 8)
-      for (var i = 0; i < area; i++) {
-        var qi = i << 2, di = i << 1, gr = data[di];
-        bf[qi] = gr;
-        bf[qi + 1] = gr;
-        bf[qi + 2] = gr;
-        bf[qi + 3] = data[di + 1];
-      }
-    if (depth == 16)
-      for (var i = 0; i < area; i++) {
-        var qi = i << 2, di = i << 2, gr = data[di];
-        bf[qi] = gr;
-        bf[qi + 1] = gr;
-        bf[qi + 2] = gr;
-        bf[qi + 3] = data[di + 2];
-      }
+    if (depth == 8) for (var i = 0; i < area; i++) {
+      var qi = i << 2, di = i << 1, gr = data[di];
+      bf[qi] = gr;
+      bf[qi + 1] = gr;
+      bf[qi + 2] = gr;
+      bf[qi + 3] = data[di + 1];
+    }
+    if (depth == 16) for (var i = 0; i < area; i++) {
+      var qi = i << 2, di = i << 2, gr = data[di];
+      bf[qi] = gr;
+      bf[qi + 1] = gr;
+      bf[qi + 2] = gr;
+      bf[qi + 3] = data[di + 2];
+    }
   } else if (ctype == 0) {
     var tr = out.tabs["tRNS"] ? out.tabs["tRNS"] : -1;
     for (var y = 0; y < h; y++) {
       var off = y * bpl, to = y * w;
-      if (depth == 1)
-        for (var x = 0; x < w; x++) {
-          var gr = 255 * (data[off + (x >>> 3)] >>> 7 - (x & 7) & 1), al = gr == tr * 255 ? 0 : 255;
-          bf32[to + x] = al << 24 | gr << 16 | gr << 8 | gr;
-        }
-      else if (depth == 2)
-        for (var x = 0; x < w; x++) {
-          var gr = 85 * (data[off + (x >>> 2)] >>> 6 - ((x & 3) << 1) & 3), al = gr == tr * 85 ? 0 : 255;
-          bf32[to + x] = al << 24 | gr << 16 | gr << 8 | gr;
-        }
-      else if (depth == 4)
-        for (var x = 0; x < w; x++) {
-          var gr = 17 * (data[off + (x >>> 1)] >>> 4 - ((x & 1) << 2) & 15), al = gr == tr * 17 ? 0 : 255;
-          bf32[to + x] = al << 24 | gr << 16 | gr << 8 | gr;
-        }
-      else if (depth == 8)
-        for (var x = 0; x < w; x++) {
-          var gr = data[off + x], al = gr == tr ? 0 : 255;
-          bf32[to + x] = al << 24 | gr << 16 | gr << 8 | gr;
-        }
-      else if (depth == 16)
-        for (var x = 0; x < w; x++) {
-          var gr = data[off + (x << 1)], al = rs(data, off + (x << i)) == tr ? 0 : 255;
-          bf32[to + x] = al << 24 | gr << 16 | gr << 8 | gr;
-        }
+      if (depth == 1) for (var x = 0; x < w; x++) {
+        var gr = 255 * (data[off + (x >>> 3)] >>> 7 - (x & 7) & 1), al = gr == tr * 255 ? 0 : 255;
+        bf32[to + x] = al << 24 | gr << 16 | gr << 8 | gr;
+      }
+      else if (depth == 2) for (var x = 0; x < w; x++) {
+        var gr = 85 * (data[off + (x >>> 2)] >>> 6 - ((x & 3) << 1) & 3), al = gr == tr * 85 ? 0 : 255;
+        bf32[to + x] = al << 24 | gr << 16 | gr << 8 | gr;
+      }
+      else if (depth == 4) for (var x = 0; x < w; x++) {
+        var gr = 17 * (data[off + (x >>> 1)] >>> 4 - ((x & 1) << 2) & 15), al = gr == tr * 17 ? 0 : 255;
+        bf32[to + x] = al << 24 | gr << 16 | gr << 8 | gr;
+      }
+      else if (depth == 8) for (var x = 0; x < w; x++) {
+        var gr = data[off + x], al = gr == tr ? 0 : 255;
+        bf32[to + x] = al << 24 | gr << 16 | gr << 8 | gr;
+      }
+      else if (depth == 16) for (var x = 0; x < w; x++) {
+        var gr = data[off + (x << 1)], al = rs(data, off + (x << i)) == tr ? 0 : 255;
+        bf32[to + x] = al << 24 | gr << 16 | gr << 8 | gr;
+      }
     }
   }
   return bf;
@@ -8992,9 +9119,7 @@ UPNG.decode = function(buff) {
   var dd = new Uint8Array(data.length), doff = 0;
   var fd, foff = 0;
   var mgck = [137, 80, 78, 71, 13, 10, 26, 10];
-  for (var i = 0; i < 8; i++)
-    if (data[i] != mgck[i])
-      throw "The input is not a PNG file!";
+  for (var i = 0; i < 8; i++) if (data[i] != mgck[i]) throw "The input is not a PNG file!";
   while (offset < data.length) {
     var len = bin.readUint(data, offset);
     offset += 4;
@@ -9003,8 +9128,7 @@ UPNG.decode = function(buff) {
     if (type == "IHDR") {
       UPNG.decode._IHDR(data, offset, out);
     } else if (type == "IDAT") {
-      for (var i = 0; i < len; i++)
-        dd[doff + i] = data[offset + i];
+      for (var i = 0; i < len; i++) dd[doff + i] = data[offset + i];
       doff += len;
     } else if (type == "acTL") {
       out.tabs[type] = { num_frames: rUi(data, offset), num_plays: rUi(data, offset + 4) };
@@ -9021,25 +9145,21 @@ UPNG.decode = function(buff) {
       var frm = { rect: rct, delay: Math.round(del * 1e3), dispose: data[offset + 24], blend: data[offset + 25] };
       out.frames.push(frm);
     } else if (type == "fdAT") {
-      for (var i = 0; i < len - 4; i++)
-        fd[foff + i] = data[offset + i + 4];
+      for (var i = 0; i < len - 4; i++) fd[foff + i] = data[offset + i + 4];
       foff += len - 4;
     } else if (type == "pHYs") {
       out.tabs[type] = [bin.readUint(data, offset), bin.readUint(data, offset + 4), data[offset + 8]];
     } else if (type == "cHRM") {
       out.tabs[type] = [];
-      for (var i = 0; i < 8; i++)
-        out.tabs[type].push(bin.readUint(data, offset + i * 4));
+      for (var i = 0; i < 8; i++) out.tabs[type].push(bin.readUint(data, offset + i * 4));
     } else if (type == "tEXt") {
-      if (out.tabs[type] == null)
-        out.tabs[type] = {};
+      if (out.tabs[type] == null) out.tabs[type] = {};
       var nz = bin.nextZero(data, offset);
       var keyw = bin.readASCII(data, offset, nz - offset);
       var text = bin.readASCII(data, nz + 1, offset + len - nz - 1);
       out.tabs[type][keyw] = text;
     } else if (type == "iTXt") {
-      if (out.tabs[type] == null)
-        out.tabs[type] = {};
+      if (out.tabs[type] == null) out.tabs[type] = {};
       var nz = 0, off = offset;
       nz = bin.nextZero(data, off);
       var keyw = bin.readASCII(data, off, nz - off);
@@ -9059,26 +9179,17 @@ UPNG.decode = function(buff) {
     } else if (type == "hIST") {
       var pl = out.tabs["PLTE"].length / 3;
       out.tabs[type] = [];
-      for (var i = 0; i < pl; i++)
-        out.tabs[type].push(rUs(data, offset + i * 2));
+      for (var i = 0; i < pl; i++) out.tabs[type].push(rUs(data, offset + i * 2));
     } else if (type == "tRNS") {
-      if (out.ctype == 3)
-        out.tabs[type] = bin.readBytes(data, offset, len);
-      else if (out.ctype == 0)
-        out.tabs[type] = rUs(data, offset);
-      else if (out.ctype == 2)
-        out.tabs[type] = [rUs(data, offset), rUs(data, offset + 2), rUs(data, offset + 4)];
-    } else if (type == "gAMA")
-      out.tabs[type] = bin.readUint(data, offset) / 1e5;
-    else if (type == "sRGB")
-      out.tabs[type] = data[offset];
+      if (out.ctype == 3) out.tabs[type] = bin.readBytes(data, offset, len);
+      else if (out.ctype == 0) out.tabs[type] = rUs(data, offset);
+      else if (out.ctype == 2) out.tabs[type] = [rUs(data, offset), rUs(data, offset + 2), rUs(data, offset + 4)];
+    } else if (type == "gAMA") out.tabs[type] = bin.readUint(data, offset) / 1e5;
+    else if (type == "sRGB") out.tabs[type] = data[offset];
     else if (type == "bKGD") {
-      if (out.ctype == 0 || out.ctype == 4)
-        out.tabs[type] = [rUs(data, offset)];
-      else if (out.ctype == 2 || out.ctype == 6)
-        out.tabs[type] = [rUs(data, offset), rUs(data, offset + 2), rUs(data, offset + 4)];
-      else if (out.ctype == 3)
-        out.tabs[type] = data[offset];
+      if (out.ctype == 0 || out.ctype == 4) out.tabs[type] = [rUs(data, offset)];
+      else if (out.ctype == 2 || out.ctype == 6) out.tabs[type] = [rUs(data, offset), rUs(data, offset + 2), rUs(data, offset + 4)];
+      else if (out.ctype == 3) out.tabs[type] = data[offset];
     } else if (type == "IEND") {
       break;
     }
@@ -9102,10 +9213,8 @@ UPNG.decode._decompress = function(out, dd, w, h) {
   var bpp = UPNG.decode._getBPP(out), bpl = Math.ceil(w * bpp / 8), buff = new Uint8Array((bpl + 1 + out.interlace) * h);
   dd = UPNG.decode._inflate(dd, buff);
   var time = Date.now();
-  if (out.interlace == 0)
-    dd = UPNG.decode._filterZero(dd, out, 0, w, h);
-  else if (out.interlace == 1)
-    dd = UPNG.decode._readInterlace(dd, out);
+  if (out.interlace == 0) dd = UPNG.decode._filterZero(dd, out, 0, w, h);
+  else if (out.interlace == 1) dd = UPNG.decode._readInterlace(dd, out);
   return dd;
 };
 UPNG.decode._inflate = function(data, buff) {
@@ -9117,28 +9226,23 @@ UPNG.inflateRaw = function() {
   H.H = {};
   H.H.N = function(N, W) {
     var R = Uint8Array, i = 0, m = 0, J = 0, h = 0, Q = 0, X = 0, u = 0, w = 0, d = 0, v, C;
-    if (N[0] == 3 && N[1] == 0)
-      return W ? W : new R(0);
+    if (N[0] == 3 && N[1] == 0) return W ? W : new R(0);
     var V = H.H, n = V.b, A = V.e, l = V.R, M = V.n, I = V.A, e = V.Z, b = V.m, Z = W == null;
-    if (Z)
-      W = new R(N.length >>> 2 << 3);
+    if (Z) W = new R(N.length >>> 2 << 3);
     while (i == 0) {
       i = n(N, d, 1);
       m = n(N, d + 1, 2);
       d += 3;
       if (m == 0) {
-        if ((d & 7) != 0)
-          d += 8 - (d & 7);
+        if ((d & 7) != 0) d += 8 - (d & 7);
         var D = (d >>> 3) + 4, q = N[D - 4] | N[D - 3] << 8;
-        if (Z)
-          W = H.H.W(W, w + q);
+        if (Z) W = H.H.W(W, w + q);
         W.set(new R(N.buffer, N.byteOffset + D, q), w);
         d = D + q << 3;
         w += q;
         continue;
       }
-      if (Z)
-        W = H.H.W(W, w + (1 << 17));
+      if (Z) W = H.H.W(W, w + (1 << 17));
       if (m == 1) {
         v = b.J;
         C = b.h;
@@ -9158,8 +9262,7 @@ UPNG.inflateRaw = function() {
         for (var c = 0; c < Q; c++) {
           var K = A(N, d + c * 3, 3);
           b.Q[(b.X[c] << 1) + 1] = K;
-          if (K > j)
-            j = K;
+          if (K > j) j = K;
         }
         d += 3 * Q;
         M(b.Q, j);
@@ -9209,8 +9312,7 @@ UPNG.inflateRaw = function() {
   };
   H.H.W = function(N, W) {
     var R = N.length;
-    if (W <= R)
-      return N;
+    if (W <= R) return N;
     var V = new Uint8Array(R << 1);
     V.set(N, 0);
     return V;
@@ -9252,8 +9354,7 @@ UPNG.inflateRaw = function() {
       var M = N[A + W];
       V[A << 1] = 0;
       V[(A << 1) + 1] = M;
-      if (M > n)
-        n = M;
+      if (M > n) n = M;
       A++;
     }
     while (A < l) {
@@ -9265,10 +9366,8 @@ UPNG.inflateRaw = function() {
   };
   H.H.n = function(N, W) {
     var R = H.H.m, V = N.length, n, A, l, M, I, e = R.j;
-    for (var M = 0; M <= W; M++)
-      e[M] = 0;
-    for (M = 1; M < V; M += 2)
-      e[N[M]]++;
+    for (var M = 0; M <= W; M++) e[M] = 0;
+    for (M = 1; M < V; M += 2) e[N[M]]++;
     var b = R.K;
     n = 0;
     e[0] = 0;
@@ -9286,15 +9385,14 @@ UPNG.inflateRaw = function() {
   };
   H.H.A = function(N, W, R) {
     var V = N.length, n = H.H.m, A = n.r;
-    for (var l = 0; l < V; l += 2)
-      if (N[l + 1] != 0) {
-        var M = l >> 1, I = N[l + 1], e = M << 4 | I, b = W - I, Z = N[l] << b, m = Z + (1 << b);
-        while (Z != m) {
-          var J = A[Z] >>> 15 - W;
-          R[J] = e;
-          Z++;
-        }
+    for (var l = 0; l < V; l += 2) if (N[l + 1] != 0) {
+      var M = l >> 1, I = N[l + 1], e = M << 4 | I, b = W - I, Z = N[l] << b, m = Z + (1 << b);
+      while (Z != m) {
+        var J = A[Z] >>> 15 - W;
+        R[J] = e;
+        Z++;
       }
+    }
   };
   H.H.l = function(N, W) {
     var R = H.H.m.r, V = 15 - W;
@@ -9343,8 +9441,7 @@ UPNG.inflateRaw = function() {
       N.r[R] = (V >>> 16 | V << 16) >>> 17;
     }
     function n(A, l, M) {
-      while (l-- != 0)
-        A.push(0, M);
+      while (l-- != 0) A.push(0, M);
     }
     for (var R = 0; R < 32; R++) {
       N.q[R] = N.S[R] << 3 | N.T[R];
@@ -9415,8 +9512,7 @@ UPNG.decode._readInterlace = function(data, out) {
         }
         if (bpp >= 8) {
           var ii = row * bpl + col * cbpp;
-          for (var j = 0; j < cbpp; j++)
-            img[ii + j] = data[(cdi >> 3) + j];
+          for (var j = 0; j < cbpp; j++) img[ii + j] = data[(cdi >> 3) + j];
         }
         cdi += bpp;
         col += ci;
@@ -9424,8 +9520,7 @@ UPNG.decode._readInterlace = function(data, out) {
       y++;
       row += ri;
     }
-    if (sw * sh != 0)
-      di += sh * (1 + bpll);
+    if (sw * sh != 0) di += sh * (1 + bpll);
     pass = pass + 1;
   }
   return img;
@@ -9438,47 +9533,33 @@ UPNG.decode._filterZero = function(data, out, off, w, h) {
   var bpp = UPNG.decode._getBPP(out), bpl = Math.ceil(w * bpp / 8), paeth = UPNG.decode._paeth;
   bpp = Math.ceil(bpp / 8);
   var i = 0, di = 1, type = data[off], x = 0;
-  if (type > 1)
-    data[off] = [0, 0, 1][type - 2];
-  if (type == 3)
-    for (x = bpp; x < bpl; x++)
-      data[x + 1] = data[x + 1] + (data[x + 1 - bpp] >>> 1) & 255;
+  if (type > 1) data[off] = [0, 0, 1][type - 2];
+  if (type == 3) for (x = bpp; x < bpl; x++) data[x + 1] = data[x + 1] + (data[x + 1 - bpp] >>> 1) & 255;
   for (var y = 0; y < h; y++) {
     i = off + y * bpl;
     di = i + y + 1;
     type = data[di - 1];
     x = 0;
-    if (type == 0)
-      for (; x < bpl; x++)
-        data[i + x] = data[di + x];
+    if (type == 0) for (; x < bpl; x++) data[i + x] = data[di + x];
     else if (type == 1) {
-      for (; x < bpp; x++)
-        data[i + x] = data[di + x];
-      for (; x < bpl; x++)
-        data[i + x] = data[di + x] + data[i + x - bpp];
+      for (; x < bpp; x++) data[i + x] = data[di + x];
+      for (; x < bpl; x++) data[i + x] = data[di + x] + data[i + x - bpp];
     } else if (type == 2) {
-      for (; x < bpl; x++)
-        data[i + x] = data[di + x] + data[i + x - bpl];
+      for (; x < bpl; x++) data[i + x] = data[di + x] + data[i + x - bpl];
     } else if (type == 3) {
-      for (; x < bpp; x++)
-        data[i + x] = data[di + x] + (data[i + x - bpl] >>> 1);
-      for (; x < bpl; x++)
-        data[i + x] = data[di + x] + (data[i + x - bpl] + data[i + x - bpp] >>> 1);
+      for (; x < bpp; x++) data[i + x] = data[di + x] + (data[i + x - bpl] >>> 1);
+      for (; x < bpl; x++) data[i + x] = data[di + x] + (data[i + x - bpl] + data[i + x - bpp] >>> 1);
     } else {
-      for (; x < bpp; x++)
-        data[i + x] = data[di + x] + paeth(0, data[i + x - bpl], 0);
-      for (; x < bpl; x++)
-        data[i + x] = data[di + x] + paeth(data[i + x - bpp], data[i + x - bpl], data[i + x - bpp - bpl]);
+      for (; x < bpp; x++) data[i + x] = data[di + x] + paeth(0, data[i + x - bpl], 0);
+      for (; x < bpl; x++) data[i + x] = data[di + x] + paeth(data[i + x - bpp], data[i + x - bpl], data[i + x - bpp - bpl]);
     }
   }
   return data;
 };
 UPNG.decode._paeth = function(a, b, c) {
   var p = a + b - c, pa = p - a, pb = p - b, pc = p - c;
-  if (pa * pa <= pb * pb && pa * pa <= pc * pc)
-    return a;
-  else if (pb * pb <= pc * pc)
-    return b;
+  if (pa * pa <= pb * pb && pa * pa <= pc * pc) return a;
+  else if (pb * pb <= pc * pc) return b;
   return c;
 };
 UPNG.decode._IHDR = function(data, offset, out) {
@@ -9500,8 +9581,7 @@ UPNG.decode._IHDR = function(data, offset, out) {
 };
 UPNG._bin = {
   nextZero: function(data, p) {
-    while (data[p] != 0)
-      p++;
+    while (data[p] != 0) p++;
     return p;
   },
   readUshort: function(buff, p) {
@@ -9522,18 +9602,15 @@ UPNG._bin = {
   },
   readASCII: function(buff, p, l) {
     var s = "";
-    for (var i = 0; i < l; i++)
-      s += String.fromCharCode(buff[p + i]);
+    for (var i = 0; i < l; i++) s += String.fromCharCode(buff[p + i]);
     return s;
   },
   writeASCII: function(data, p, s) {
-    for (var i = 0; i < s.length; i++)
-      data[p + i] = s.charCodeAt(i);
+    for (var i = 0; i < s.length; i++) data[p + i] = s.charCodeAt(i);
   },
   readBytes: function(buff, p, l) {
     var arr = [];
-    for (var i = 0; i < l; i++)
-      arr.push(buff[p + i]);
+    for (var i = 0; i < l; i++) arr.push(buff[p + i]);
     return arr;
   },
   pad: function(n) {
@@ -9541,8 +9618,7 @@ UPNG._bin = {
   },
   readUTF8: function(buff, p, l) {
     var s = "", ns;
-    for (var i = 0; i < l; i++)
-      s += "%" + UPNG._bin.pad(buff[p + i].toString(16));
+    for (var i = 0; i < l; i++) s += "%" + UPNG._bin.pad(buff[p + i].toString(16));
     try {
       ns = decodeURIComponent(s);
     } catch (e) {
@@ -9593,19 +9669,15 @@ UPNG._copyTile = function(sb, sw, sh, tb, tw, th, xoff, yoff, mode) {
       } else if (mode == 3) {
         var fa = sb[si + 3], fr = sb[si], fg = sb[si + 1], fb = sb[si + 2];
         var ba = tb[ti + 3], br = tb[ti], bg = tb[ti + 1], bb = tb[ti + 2];
-        if (fa == ba && fr == br && fg == bg && fb == bb)
-          continue;
-        if (fa < 220 && ba > 20)
-          return false;
+        if (fa == ba && fr == br && fg == bg && fb == bb) continue;
+        if (fa < 220 && ba > 20) return false;
       }
     }
   return true;
 };
 UPNG.encode = function(bufs, w, h, ps, dels, tabs, forbidPlte) {
-  if (ps == null)
-    ps = 0;
-  if (forbidPlte == null)
-    forbidPlte = false;
+  if (ps == null) ps = 0;
+  if (forbidPlte == null) forbidPlte = false;
   var nimg = UPNG.encode.compress(bufs, w, h, ps, [false, false, false, 0, forbidPlte]);
   UPNG.encode.compressPNG(nimg, -1);
   return UPNG.encode._main(nimg, w, h, dels, tabs);
@@ -9621,35 +9693,27 @@ UPNG.encodeLL = function(bufs, w, h, cc, ac, depth, dels, tabs) {
   return out;
 };
 UPNG.encode._main = function(nimg, w, h, dels, tabs) {
-  if (tabs == null)
-    tabs = {};
+  if (tabs == null) tabs = {};
   var crc = UPNG.crc.crc, wUi = UPNG._bin.writeUint, wUs = UPNG._bin.writeUshort, wAs = UPNG._bin.writeASCII;
   var offset = 8, anim = nimg.frames.length > 1, pltAlpha = false;
   var leng = 8 + (16 + 5 + 4) + (anim ? 20 : 0);
-  if (tabs["sRGB"] != null)
-    leng += 8 + 1 + 4;
-  if (tabs["pHYs"] != null)
-    leng += 8 + 9 + 4;
+  if (tabs["sRGB"] != null) leng += 8 + 1 + 4;
+  if (tabs["pHYs"] != null) leng += 8 + 9 + 4;
   if (nimg.ctype == 3) {
     var dl = nimg.plte.length;
-    for (var i = 0; i < dl; i++)
-      if (nimg.plte[i] >>> 24 != 255)
-        pltAlpha = true;
+    for (var i = 0; i < dl; i++) if (nimg.plte[i] >>> 24 != 255) pltAlpha = true;
     leng += 8 + dl * 3 + 4 + (pltAlpha ? 8 + dl * 1 + 4 : 0);
   }
   for (var j = 0; j < nimg.frames.length; j++) {
     var fr = nimg.frames[j];
-    if (anim)
-      leng += 38;
+    if (anim) leng += 38;
     leng += fr.cimg.length + 12;
-    if (j != 0)
-      leng += 4;
+    if (j != 0) leng += 4;
   }
   leng += 12;
   var data = new Uint8Array(leng);
   var wr = [137, 80, 78, 71, 13, 10, 26, 10];
-  for (var i = 0; i < 8; i++)
-    data[i] = wr[i];
+  for (var i = 0; i < 8; i++) data[i] = wr[i];
   wUi(data, offset, 13);
   offset += 4;
   wAs(data, offset, "IHDR");
@@ -9726,8 +9790,7 @@ UPNG.encode._main = function(nimg, w, h, dels, tabs) {
       offset += 4;
       wAs(data, offset, "tRNS");
       offset += 4;
-      for (var i = 0; i < dl; i++)
-        data[offset + i] = nimg.plte[i] >>> 24 & 255;
+      for (var i = 0; i < dl; i++) data[offset + i] = nimg.plte[i] >>> 24 & 255;
       offset += dl;
       wUi(data, offset, crc(data, offset - dl - 4, dl + 4));
       offset += 4;
@@ -9797,16 +9860,14 @@ UPNG.encode.compress = function(bufs, w, h, ps, prms) {
   var ctype = 6, depth = 8, alphaAnd = 255;
   for (var j = 0; j < bufs.length; j++) {
     var img = new Uint8Array(bufs[j]), ilen = img.length;
-    for (var i = 0; i < ilen; i += 4)
-      alphaAnd &= img[i + 3];
+    for (var i = 0; i < ilen; i += 4) alphaAnd &= img[i + 3];
   }
   var gotAlpha = alphaAnd != 255;
   var frms = UPNG.encode.framize(bufs, w, h, onlyBlend, evenCrd, forbidPrev);
   var cmap = {}, plte = [], inds = [];
   if (ps != 0) {
     var nbufs = [];
-    for (var i = 0; i < frms.length; i++)
-      nbufs.push(frms[i].img.buffer);
+    for (var i = 0; i < frms.length; i++) nbufs.push(frms[i].img.buffer);
     var abuf = UPNG.encode.concatRGBA(nbufs), qres = UPNG.quantize(abuf, ps);
     var cof = 0, bb = new Uint8Array(qres.abuf);
     for (var i = 0; i < frms.length; i++) {
@@ -9820,8 +9881,7 @@ UPNG.encode.compress = function(bufs, w, h, ps, prms) {
       }
       cof += bln;
     }
-    for (var i = 0; i < qres.plte.length; i++)
-      plte.push(qres.plte[i].est.rgba);
+    for (var i = 0; i < qres.plte.length; i++) plte.push(qres.plte[i].est.rgba);
   } else {
     for (var j = 0; j < frms.length; j++) {
       var frm = frms[j], img32 = new Uint32Array(frm.img.buffer), nw = frm.rect.width, ilen = img32.length;
@@ -9829,17 +9889,14 @@ UPNG.encode.compress = function(bufs, w, h, ps, prms) {
       inds.push(ind);
       for (var i = 0; i < ilen; i++) {
         var c = img32[i];
-        if (i != 0 && c == img32[i - 1])
-          ind[i] = ind[i - 1];
-        else if (i > nw && c == img32[i - nw])
-          ind[i] = ind[i - nw];
+        if (i != 0 && c == img32[i - 1]) ind[i] = ind[i - 1];
+        else if (i > nw && c == img32[i - nw]) ind[i] = ind[i - nw];
         else {
           var cmc = cmap[c];
           if (cmc == null) {
             cmap[c] = cmc = plte.length;
             plte.push(c);
-            if (plte.length >= 300)
-              break;
+            if (plte.length >= 300) break;
           }
           ind[i] = cmc;
         }
@@ -9848,14 +9905,10 @@ UPNG.encode.compress = function(bufs, w, h, ps, prms) {
   }
   var cc = plte.length;
   if (cc <= 256 && forbidPlte == false) {
-    if (cc <= 2)
-      depth = 1;
-    else if (cc <= 4)
-      depth = 2;
-    else if (cc <= 16)
-      depth = 4;
-    else
-      depth = 8;
+    if (cc <= 2) depth = 1;
+    else if (cc <= 4) depth = 2;
+    else if (cc <= 16) depth = 4;
+    else depth = 8;
     depth = Math.max(depth, minBits);
   }
   for (var j = 0; j < frms.length; j++) {
@@ -9868,18 +9921,10 @@ UPNG.encode.compress = function(bufs, w, h, ps, prms) {
       var inj = inds[j];
       for (var y = 0; y < nh; y++) {
         var i = y * bpl, ii = y * nw;
-        if (depth == 8)
-          for (var x = 0; x < nw; x++)
-            nimg[i + x] = inj[ii + x];
-        else if (depth == 4)
-          for (var x = 0; x < nw; x++)
-            nimg[i + (x >> 1)] |= inj[ii + x] << 4 - (x & 1) * 4;
-        else if (depth == 2)
-          for (var x = 0; x < nw; x++)
-            nimg[i + (x >> 2)] |= inj[ii + x] << 6 - (x & 3) * 2;
-        else if (depth == 1)
-          for (var x = 0; x < nw; x++)
-            nimg[i + (x >> 3)] |= inj[ii + x] << 7 - (x & 7) * 1;
+        if (depth == 8) for (var x = 0; x < nw; x++) nimg[i + x] = inj[ii + x];
+        else if (depth == 4) for (var x = 0; x < nw; x++) nimg[i + (x >> 1)] |= inj[ii + x] << 4 - (x & 1) * 4;
+        else if (depth == 2) for (var x = 0; x < nw; x++) nimg[i + (x >> 2)] |= inj[ii + x] << 6 - (x & 3) * 2;
+        else if (depth == 1) for (var x = 0; x < nw; x++) nimg[i + (x >> 3)] |= inj[ii + x] << 7 - (x & 7) * 1;
       }
       cimg = nimg;
       ctype = 3;
@@ -9914,27 +9959,19 @@ UPNG.encode.framize = function(bufs, w, h, alwaysBlend, evenCrd, forbidPrev) {
       for (var it = 0; it < tlim; it++) {
         var pimg = new Uint8Array(bufs[j - 1 - it]), p32 = new Uint32Array(bufs[j - 1 - it]);
         var mix = w, miy = h, max = -1, may = -1;
-        for (var y = 0; y < h; y++)
-          for (var x = 0; x < w; x++) {
-            var i = y * w + x;
-            if (cimg32[i] != p32[i]) {
-              if (x < mix)
-                mix = x;
-              if (x > max)
-                max = x;
-              if (y < miy)
-                miy = y;
-              if (y > may)
-                may = y;
-            }
+        for (var y = 0; y < h; y++) for (var x = 0; x < w; x++) {
+          var i = y * w + x;
+          if (cimg32[i] != p32[i]) {
+            if (x < mix) mix = x;
+            if (x > max) max = x;
+            if (y < miy) miy = y;
+            if (y > may) may = y;
           }
-        if (max == -1)
-          mix = miy = max = may = 0;
+        }
+        if (max == -1) mix = miy = max = may = 0;
         if (evenCrd) {
-          if ((mix & 1) == 1)
-            mix--;
-          if ((miy & 1) == 1)
-            miy--;
+          if ((mix & 1) == 1) mix--;
+          if ((miy & 1) == 1) miy--;
         }
         var sarea = (max - mix + 1) * (may - miy + 1);
         if (sarea < tarea) {
@@ -9947,39 +9984,32 @@ UPNG.encode.framize = function(bufs, w, h, alwaysBlend, evenCrd, forbidPrev) {
         }
       }
       var pimg = new Uint8Array(bufs[j - 1 - tstp]);
-      if (tstp == 1)
-        frms[j - 1].dispose = 2;
+      if (tstp == 1) frms[j - 1].dispose = 2;
       nimg = new Uint8Array(nw * nh * 4);
       UPNG._copyTile(pimg, w, h, nimg, nw, nh, -nx, -ny, 0);
       blend = UPNG._copyTile(cimg, w, h, nimg, nw, nh, -nx, -ny, 3) ? 1 : 0;
-      if (blend == 1)
-        UPNG.encode._prepareDiff(cimg, w, h, nimg, { x: nx, y: ny, width: nw, height: nh });
-      else
-        UPNG._copyTile(cimg, w, h, nimg, nw, nh, -nx, -ny, 0);
-    } else
-      nimg = cimg.slice(0);
+      if (blend == 1) UPNG.encode._prepareDiff(cimg, w, h, nimg, { x: nx, y: ny, width: nw, height: nh });
+      else UPNG._copyTile(cimg, w, h, nimg, nw, nh, -nx, -ny, 0);
+    } else nimg = cimg.slice(0);
     frms.push({ rect: { x: nx, y: ny, width: nw, height: nh }, img: nimg, blend, dispose: 0 });
   }
-  if (alwaysBlend)
-    for (var j = 0; j < frms.length; j++) {
-      var frm = frms[j];
-      if (frm.blend == 1)
-        continue;
-      var r0 = frm.rect, r1 = frms[j - 1].rect;
-      var miX = Math.min(r0.x, r1.x), miY = Math.min(r0.y, r1.y);
-      var maX = Math.max(r0.x + r0.width, r1.x + r1.width), maY = Math.max(r0.y + r0.height, r1.y + r1.height);
-      var r = { x: miX, y: miY, width: maX - miX, height: maY - miY };
-      frms[j - 1].dispose = 1;
-      if (j - 1 != 0)
-        UPNG.encode._updateFrame(bufs, w, h, frms, j - 1, r, evenCrd);
-      UPNG.encode._updateFrame(bufs, w, h, frms, j, r, evenCrd);
-    }
+  if (alwaysBlend) for (var j = 0; j < frms.length; j++) {
+    var frm = frms[j];
+    if (frm.blend == 1) continue;
+    var r0 = frm.rect, r1 = frms[j - 1].rect;
+    var miX = Math.min(r0.x, r1.x), miY = Math.min(r0.y, r1.y);
+    var maX = Math.max(r0.x + r0.width, r1.x + r1.width), maY = Math.max(r0.y + r0.height, r1.y + r1.height);
+    var r = { x: miX, y: miY, width: maX - miX, height: maY - miY };
+    frms[j - 1].dispose = 1;
+    if (j - 1 != 0)
+      UPNG.encode._updateFrame(bufs, w, h, frms, j - 1, r, evenCrd);
+    UPNG.encode._updateFrame(bufs, w, h, frms, j, r, evenCrd);
+  }
   var area = 0;
-  if (bufs.length != 1)
-    for (var i = 0; i < frms.length; i++) {
-      var frm = frms[i];
-      area += frm.rect.width * frm.rect.height;
-    }
+  if (bufs.length != 1) for (var i = 0; i < frms.length; i++) {
+    var frm = frms[i];
+    area += frm.rect.width * frm.rect.height;
+  }
   return frms;
 };
 UPNG.encode._updateFrame = function(bufs, w, h, frms, i, r, evenCrd) {
@@ -9987,29 +10017,21 @@ UPNG.encode._updateFrame = function(bufs, w, h, frms, i, r, evenCrd) {
   var pimg = new U8(bufs[i - 1]), pimg32 = new U32(bufs[i - 1]), nimg = i + 1 < bufs.length ? new U8(bufs[i + 1]) : null;
   var cimg = new U8(bufs[i]), cimg32 = new U32(cimg.buffer);
   var mix = w, miy = h, max = -1, may = -1;
-  for (var y = 0; y < r.height; y++)
-    for (var x = 0; x < r.width; x++) {
-      var cx2 = r.x + x, cy2 = r.y + y;
-      var j = cy2 * w + cx2, cc = cimg32[j];
-      if (cc == 0 || frms[i - 1].dispose == 0 && pimg32[j] == cc && (nimg == null || nimg[j * 4 + 3] != 0)) {
-      } else {
-        if (cx2 < mix)
-          mix = cx2;
-        if (cx2 > max)
-          max = cx2;
-        if (cy2 < miy)
-          miy = cy2;
-        if (cy2 > may)
-          may = cy2;
-      }
+  for (var y = 0; y < r.height; y++) for (var x = 0; x < r.width; x++) {
+    var cx2 = r.x + x, cy2 = r.y + y;
+    var j = cy2 * w + cx2, cc = cimg32[j];
+    if (cc == 0 || frms[i - 1].dispose == 0 && pimg32[j] == cc && (nimg == null || nimg[j * 4 + 3] != 0)) {
+    } else {
+      if (cx2 < mix) mix = cx2;
+      if (cx2 > max) max = cx2;
+      if (cy2 < miy) miy = cy2;
+      if (cy2 > may) may = cy2;
     }
-  if (max == -1)
-    mix = miy = max = may = 0;
+  }
+  if (max == -1) mix = miy = max = may = 0;
   if (evenCrd) {
-    if ((mix & 1) == 1)
-      mix--;
-    if ((miy & 1) == 1)
-      miy--;
+    if ((mix & 1) == 1) mix--;
+    if ((miy & 1) == 1) miy--;
   }
   r = { x: mix, y: miy, width: max - mix + 1, height: may - miy + 1 };
   var fr = frms[i];
@@ -10027,25 +10049,20 @@ UPNG.encode._prepareDiff = function(cimg, w, h, nimg, rec) {
 };
 UPNG.encode._filterZero = function(img, h, bpp, bpl, data, filter, levelZero) {
   var fls = [], ftry = [0, 1, 2, 3, 4];
-  if (filter != -1)
-    ftry = [filter];
-  else if (h * bpl > 5e5 || bpp == 1)
-    ftry = [0];
+  if (filter != -1) ftry = [filter];
+  else if (h * bpl > 5e5 || bpp == 1) ftry = [0];
   var opts;
-  if (levelZero)
-    opts = { level: 0 };
+  if (levelZero) opts = { level: 0 };
   var CMPR = levelZero && UZIP != null ? UZIP : import_pako4.default;
   for (var i = 0; i < ftry.length; i++) {
-    for (var y = 0; y < h; y++)
-      UPNG.encode._filterLine(data, img, y, bpl, bpp, ftry[i]);
+    for (var y = 0; y < h; y++) UPNG.encode._filterLine(data, img, y, bpl, bpp, ftry[i]);
     fls.push(CMPR["deflate"](data, opts));
   }
   var ti, tsize = 1e9;
-  for (var i = 0; i < fls.length; i++)
-    if (fls[i].length < tsize) {
-      ti = i;
-      tsize = fls[i].length;
-    }
+  for (var i = 0; i < fls.length; i++) if (fls[i].length < tsize) {
+    ti = i;
+    tsize = fls[i].length;
+  }
   return fls[ti];
 };
 UPNG.encode._filterLine = function(data, img, y, bpl, bpp, type) {
@@ -10053,44 +10070,27 @@ UPNG.encode._filterLine = function(data, img, y, bpl, bpp, type) {
   data[di] = type;
   di++;
   if (type == 0) {
-    if (bpl < 500)
-      for (var x = 0; x < bpl; x++)
-        data[di + x] = img[i + x];
-    else
-      data.set(new Uint8Array(img.buffer, i, bpl), di);
+    if (bpl < 500) for (var x = 0; x < bpl; x++) data[di + x] = img[i + x];
+    else data.set(new Uint8Array(img.buffer, i, bpl), di);
   } else if (type == 1) {
-    for (var x = 0; x < bpp; x++)
-      data[di + x] = img[i + x];
-    for (var x = bpp; x < bpl; x++)
-      data[di + x] = img[i + x] - img[i + x - bpp] + 256 & 255;
+    for (var x = 0; x < bpp; x++) data[di + x] = img[i + x];
+    for (var x = bpp; x < bpl; x++) data[di + x] = img[i + x] - img[i + x - bpp] + 256 & 255;
   } else if (y == 0) {
-    for (var x = 0; x < bpp; x++)
-      data[di + x] = img[i + x];
-    if (type == 2)
-      for (var x = bpp; x < bpl; x++)
-        data[di + x] = img[i + x];
-    if (type == 3)
-      for (var x = bpp; x < bpl; x++)
-        data[di + x] = img[i + x] - (img[i + x - bpp] >> 1) + 256 & 255;
-    if (type == 4)
-      for (var x = bpp; x < bpl; x++)
-        data[di + x] = img[i + x] - paeth(img[i + x - bpp], 0, 0) + 256 & 255;
+    for (var x = 0; x < bpp; x++) data[di + x] = img[i + x];
+    if (type == 2) for (var x = bpp; x < bpl; x++) data[di + x] = img[i + x];
+    if (type == 3) for (var x = bpp; x < bpl; x++) data[di + x] = img[i + x] - (img[i + x - bpp] >> 1) + 256 & 255;
+    if (type == 4) for (var x = bpp; x < bpl; x++) data[di + x] = img[i + x] - paeth(img[i + x - bpp], 0, 0) + 256 & 255;
   } else {
     if (type == 2) {
-      for (var x = 0; x < bpl; x++)
-        data[di + x] = img[i + x] + 256 - img[i + x - bpl] & 255;
+      for (var x = 0; x < bpl; x++) data[di + x] = img[i + x] + 256 - img[i + x - bpl] & 255;
     }
     if (type == 3) {
-      for (var x = 0; x < bpp; x++)
-        data[di + x] = img[i + x] + 256 - (img[i + x - bpl] >> 1) & 255;
-      for (var x = bpp; x < bpl; x++)
-        data[di + x] = img[i + x] + 256 - (img[i + x - bpl] + img[i + x - bpp] >> 1) & 255;
+      for (var x = 0; x < bpp; x++) data[di + x] = img[i + x] + 256 - (img[i + x - bpl] >> 1) & 255;
+      for (var x = bpp; x < bpl; x++) data[di + x] = img[i + x] + 256 - (img[i + x - bpl] + img[i + x - bpp] >> 1) & 255;
     }
     if (type == 4) {
-      for (var x = 0; x < bpp; x++)
-        data[di + x] = img[i + x] + 256 - paeth(0, img[i + x - bpl], 0) & 255;
-      for (var x = bpp; x < bpl; x++)
-        data[di + x] = img[i + x] + 256 - paeth(img[i + x - bpp], img[i + x - bpl], img[i + x - bpp - bpl]) & 255;
+      for (var x = 0; x < bpp; x++) data[di + x] = img[i + x] + 256 - paeth(0, img[i + x - bpl], 0) & 255;
+      for (var x = bpp; x < bpl; x++) data[di + x] = img[i + x] + 256 - paeth(img[i + x - bpp], img[i + x - bpl], img[i + x - bpp - bpl]) & 255;
     }
   }
 };
@@ -10100,18 +10100,15 @@ UPNG.crc = {
     for (var n = 0; n < 256; n++) {
       var c = n;
       for (var k = 0; k < 8; k++) {
-        if (c & 1)
-          c = 3988292384 ^ c >>> 1;
-        else
-          c = c >>> 1;
+        if (c & 1) c = 3988292384 ^ c >>> 1;
+        else c = c >>> 1;
       }
       tab[n] = c;
     }
     return tab;
   }(),
   update: function(c, buf, off, len) {
-    for (var i = 0; i < len; i++)
-      c = UPNG.crc.table[(c ^ buf[off + i]) & 255] ^ c >>> 8;
+    for (var i = 0; i < len; i++) c = UPNG.crc.table[(c ^ buf[off + i]) & 255] ^ c >>> 8;
     return c;
   },
   crc: function(b, o, l) {
@@ -10134,8 +10131,7 @@ UPNG.quantize = function(abuf, ps) {
   return { abuf: nimg.buffer, inds, plte: leafs };
 };
 UPNG.quantize.getKDtree = function(nimg, ps, err) {
-  if (err == null)
-    err = 1e-4;
+  if (err == null) err = 1e-4;
   var nimg32 = new Uint32Array(nimg.buffer);
   var root = { i0: 0, i1: nimg.length, bst: null, est: null, tdst: 0, left: null, right: null };
   root.bst = UPNG.quantize.stats(nimg, root.i0, root.i1);
@@ -10143,13 +10139,11 @@ UPNG.quantize.getKDtree = function(nimg, ps, err) {
   var leafs = [root];
   while (leafs.length < ps) {
     var maxL = 0, mi = 0;
-    for (var i = 0; i < leafs.length; i++)
-      if (leafs[i].est.L > maxL) {
-        maxL = leafs[i].est.L;
-        mi = i;
-      }
-    if (maxL < err)
-      break;
+    for (var i = 0; i < leafs.length; i++) if (leafs[i].est.L > maxL) {
+      maxL = leafs[i].est.L;
+      mi = i;
+    }
+    if (maxL < err) break;
     var node = leafs[mi];
     var s0 = UPNG.quantize.splitPixels(nimg, nimg32, node.i0, node.i1, node.est.e, node.est.eMq255);
     var s0wrong = node.i0 >= s0 || node.i1 <= s0;
@@ -10162,10 +10156,8 @@ UPNG.quantize.getKDtree = function(nimg, ps, err) {
     ln.est = UPNG.quantize.estats(ln.bst);
     var rn = { i0: s0, i1: node.i1, bst: null, est: null, tdst: 0, left: null, right: null };
     rn.bst = { R: [], m: [], N: node.bst.N - ln.bst.N };
-    for (var i = 0; i < 16; i++)
-      rn.bst.R[i] = node.bst.R[i] - ln.bst.R[i];
-    for (var i = 0; i < 4; i++)
-      rn.bst.m[i] = node.bst.m[i] - ln.bst.m[i];
+    for (var i = 0; i < 16; i++) rn.bst.R[i] = node.bst.R[i] - ln.bst.R[i];
+    for (var i = 0; i < 4; i++) rn.bst.m[i] = node.bst.m[i] - ln.bst.m[i];
     rn.est = UPNG.quantize.estats(rn.bst);
     node.left = ln;
     node.right = rn;
@@ -10175,8 +10167,7 @@ UPNG.quantize.getKDtree = function(nimg, ps, err) {
   leafs.sort(function(a, b) {
     return b.bst.N - a.bst.N;
   });
-  for (var i = 0; i < leafs.length; i++)
-    leafs[i].ind = i;
+  for (var i = 0; i < leafs.length; i++) leafs[i].ind = i;
   return [root, leafs];
 };
 UPNG.quantize.getNearest = function(nd, r, g, b, a) {
@@ -10191,8 +10182,7 @@ UPNG.quantize.getNearest = function(nd, r, g, b, a) {
     node1 = nd.left;
   }
   var ln = UPNG.quantize.getNearest(node0, r, g, b, a);
-  if (ln.tdst <= planeDst * planeDst)
-    return ln;
+  if (ln.tdst <= planeDst * planeDst) return ln;
   var rn = UPNG.quantize.getNearest(node1, r, g, b, a);
   return rn.tdst < ln.tdst ? rn : ln;
 };
@@ -10209,20 +10199,16 @@ UPNG.quantize.splitPixels = function(nimg, nimg32, i0, i1, e, eMq) {
   i1 -= 4;
   var shfs = 0;
   while (i0 < i1) {
-    while (vecDot(nimg, i0, e) <= eMq)
-      i0 += 4;
-    while (vecDot(nimg, i1, e) > eMq)
-      i1 -= 4;
-    if (i0 >= i1)
-      break;
+    while (vecDot(nimg, i0, e) <= eMq) i0 += 4;
+    while (vecDot(nimg, i1, e) > eMq) i1 -= 4;
+    if (i0 >= i1) break;
     var t = nimg32[i0 >> 2];
     nimg32[i0 >> 2] = nimg32[i1 >> 2];
     nimg32[i1 >> 2] = t;
     i0 += 4;
     i1 -= 4;
   }
-  while (vecDot(nimg, i0, e) > eMq)
-    i0 -= 4;
+  while (vecDot(nimg, i0, e) > eMq) i0 -= 4;
   return i0 + 4;
 };
 UPNG.quantize.vecDot = function(nimg, i, e) {
@@ -10285,8 +10271,7 @@ UPNG.quantize.estats = function(stats) {
       b = M.multVec(A, b);
       tmi = Math.sqrt(M.dot(b, b));
       b = M.sml(1 / tmi, b);
-      if (Math.abs(tmi - mi) < 1e-9)
-        break;
+      if (Math.abs(tmi - mi) < 1e-9) break;
       mi = tmi;
     }
   var q = [m0 * iN, m1 * iN, m2 * iN, m3 * iN];
@@ -10319,15 +10304,13 @@ UPNG.M4 = {
 };
 UPNG.encode.concatRGBA = function(bufs) {
   var tlen = 0;
-  for (var i = 0; i < bufs.length; i++)
-    tlen += bufs[i].byteLength;
+  for (var i = 0; i < bufs.length; i++) tlen += bufs[i].byteLength;
   var nimg = new Uint8Array(tlen), noff = 0;
   for (var i = 0; i < bufs.length; i++) {
     var img = new Uint8Array(bufs[i]), il = img.length;
     for (var j = 0; j < il; j += 4) {
       var r = img[j], g = img[j + 1], b = img[j + 2], a = img[j + 3];
-      if (a == 0)
-        r = g = b = 0;
+      if (a == 0) r = g = b = 0;
       nimg[noff + j] = r;
       nimg[noff + j + 1] = g;
       nimg[noff + j + 2] = b;
@@ -14188,15 +14171,13 @@ var PDFObjectStreamParser = (
               idx = 0, len = offsetsAndObjectNumbers.length;
               _b.label = 1;
             case 1:
-              if (!(idx < len))
-                return [3, 4];
+              if (!(idx < len)) return [3, 4];
               _a = offsetsAndObjectNumbers[idx], objectNumber = _a.objectNumber, offset = _a.offset;
               this.bytes.moveTo(this.firstOffset + offset);
               object = this.parseObject();
               ref = PDFRef_default.of(objectNumber, 0);
               this.context.assign(ref, object);
-              if (!this.shouldWaitForTick())
-                return [3, 3];
+              if (!this.shouldWaitForTick()) return [3, 3];
               return [4, waitForTick()];
             case 2:
               _b.sent();
@@ -14352,8 +14333,7 @@ var PDFParser = (
               this.context.header = this.parseHeader();
               _a.label = 1;
             case 1:
-              if (!!this.bytes.done())
-                return [3, 3];
+              if (!!this.bytes.done()) return [3, 3];
               return [4, this.parseDocumentSection()];
             case 2:
               _a.sent();
@@ -14435,8 +14415,7 @@ var PDFParser = (
               object = this.parseObject();
               this.skipWhitespaceAndComments();
               this.matchKeyword(Keywords.endobj);
-              if (!(object instanceof PDFRawStream_default && object.dict.lookup(PDFName_default.of("Type")) === PDFName_default.of("ObjStm")))
-                return [3, 2];
+              if (!(object instanceof PDFRawStream_default && object.dict.lookup(PDFName_default.of("Type")) === PDFName_default.of("ObjStm"))) return [3, 2];
               return [4, PDFObjectStreamParser_default.forStream(object, this.shouldWaitForTick).parseIntoContext()];
             case 1:
               _a.sent();
@@ -14489,8 +14468,7 @@ var PDFParser = (
               this.skipWhitespaceAndComments();
               _a.label = 1;
             case 1:
-              if (!(!this.bytes.done() && IsDigit[this.bytes.peek()]))
-                return [3, 8];
+              if (!(!this.bytes.done() && IsDigit[this.bytes.peek()])) return [3, 8];
               initialOffset = this.bytes.offset();
               _a.label = 2;
             case 2:
@@ -14507,8 +14485,7 @@ var PDFParser = (
             case 5:
               this.skipWhitespaceAndComments();
               this.skipJibberish();
-              if (!this.shouldWaitForTick())
-                return [3, 7];
+              if (!this.shouldWaitForTick()) return [3, 7];
               return [4, waitForTick()];
             case 6:
               _a.sent();
@@ -16545,8 +16522,7 @@ var PDFEmbeddedPage = (
         return __generator(this, function(_a) {
           switch (_a.label) {
             case 0:
-              if (!!this.alreadyEmbedded)
-                return [3, 2];
+              if (!!this.alreadyEmbedded) return [3, 2];
               return [4, this.embedder.embedIntoContext(this.doc.context, this.ref)];
             case 1:
               _a.sent();
@@ -16620,8 +16596,7 @@ var PDFFont = (
         return __generator(this, function(_a) {
           switch (_a.label) {
             case 0:
-              if (!this.modified)
-                return [3, 2];
+              if (!this.modified) return [3, 2];
               return [4, this.embedder.embedIntoContext(this.doc.context, this.ref)];
             case 1:
               _a.sent();
@@ -17083,12 +17058,12 @@ var PDFDropdown = (
       }
       this.acroField.setOptions(existingOptions.concat(newOptions));
     };
-    PDFDropdown2.prototype.select = function(options, merge) {
-      if (merge === void 0) {
-        merge = false;
+    PDFDropdown2.prototype.select = function(options, merge2) {
+      if (merge2 === void 0) {
+        merge2 = false;
       }
       assertIs(options, "options", ["string", Array]);
-      assertIs(merge, "merge", ["boolean"]);
+      assertIs(merge2, "merge", ["boolean"]);
       var optionsArr = Array.isArray(options) ? options : [options];
       var validOptions = this.getOptions();
       var hasCustomOption = optionsArr.find(function(option) {
@@ -17097,14 +17072,14 @@ var PDFDropdown = (
       if (hasCustomOption)
         this.enableEditing();
       this.markAsDirty();
-      if (optionsArr.length > 1 || optionsArr.length === 1 && merge) {
+      if (optionsArr.length > 1 || optionsArr.length === 1 && merge2) {
         this.enableMultiselect();
       }
       var values2 = new Array(optionsArr.length);
       for (var idx = 0, len = optionsArr.length; idx < len; idx++) {
         values2[idx] = PDFHexString_default.fromText(optionsArr[idx]);
       }
-      if (merge) {
+      if (merge2) {
         var existingValues = this.acroField.getValues();
         this.acroField.setValues(existingValues.concat(values2));
       } else {
@@ -17286,24 +17261,24 @@ var PDFOptionList = (
       }
       this.acroField.setOptions(existingOptions.concat(newOptions));
     };
-    PDFOptionList2.prototype.select = function(options, merge) {
-      if (merge === void 0) {
-        merge = false;
+    PDFOptionList2.prototype.select = function(options, merge2) {
+      if (merge2 === void 0) {
+        merge2 = false;
       }
       assertIs(options, "options", ["string", Array]);
-      assertIs(merge, "merge", ["boolean"]);
+      assertIs(merge2, "merge", ["boolean"]);
       var optionsArr = Array.isArray(options) ? options : [options];
       var validOptions = this.getOptions();
       assertIsSubset(optionsArr, "option", validOptions);
       this.markAsDirty();
-      if (optionsArr.length > 1 || optionsArr.length === 1 && merge) {
+      if (optionsArr.length > 1 || optionsArr.length === 1 && merge2) {
         this.enableMultiselect();
       }
       var values2 = new Array(optionsArr.length);
       for (var idx = 0, len = optionsArr.length; idx < len; idx++) {
         values2[idx] = PDFHexString_default.fromText(optionsArr[idx]);
       }
-      if (merge) {
+      if (merge2) {
         var existingValues = this.acroField.getValues();
         this.acroField.setValues(existingValues.concat(values2));
       } else {
@@ -18273,8 +18248,7 @@ var PDFEmbeddedFile = (
         return __generator(this, function(_a) {
           switch (_a.label) {
             case 0:
-              if (!!this.alreadyEmbedded)
-                return [3, 2];
+              if (!!this.alreadyEmbedded) return [3, 2];
               return [4, this.embedder.embedIntoContext(this.doc.context, this.ref)];
             case 1:
               ref = _a.sent();
@@ -18332,8 +18306,7 @@ var PDFJavaScript = (
         return __generator(this, function(_b) {
           switch (_b.label) {
             case 0:
-              if (!!this.alreadyEmbedded)
-                return [3, 2];
+              if (!!this.alreadyEmbedded) return [3, 2];
               _a = this.doc, catalog = _a.catalog, context = _a.context;
               return [4, this.embedder.embedIntoContext(this.doc.context, this.ref)];
             case 1:
@@ -18769,17 +18742,14 @@ var PDFDocument = (
               _a = options.subset, subset = _a === void 0 ? false : _a, customName = options.customName, features = options.features;
               assertIs(font, "font", ["string", Uint8Array, ArrayBuffer]);
               assertIs(subset, "subset", ["boolean"]);
-              if (!isStandardFont(font))
-                return [3, 1];
+              if (!isStandardFont(font)) return [3, 1];
               embedder = StandardFontEmbedder_default.for(font, customName);
               return [3, 7];
             case 1:
-              if (!canBeConvertedToUint8Array(font))
-                return [3, 6];
+              if (!canBeConvertedToUint8Array(font)) return [3, 6];
               bytes = toUint8Array(font);
               fontkit = this.assertFontkit();
-              if (!subset)
-                return [3, 3];
+              if (!subset) return [3, 3];
               return [4, CustomFontSubsetEmbedder_default.for(fontkit, bytes, customName, features)];
             case 2:
               _b = _c.sent();
@@ -18868,8 +18838,7 @@ var PDFDocument = (
                 [PDFDocument2, "PDFDocument"]
               ]);
               assertIs(indices, "indices", [Array]);
-              if (!(pdf instanceof PDFDocument2))
-                return [3, 1];
+              if (!(pdf instanceof PDFDocument2)) return [3, 1];
               _a = pdf;
               return [3, 3];
             case 1:
@@ -18930,8 +18899,7 @@ var PDFDocument = (
               idx = 0, len = pages.length;
               _b.label = 1;
             case 1:
-              if (!(idx < len))
-                return [3, 4];
+              if (!(idx < len)) return [3, 4];
               page = maybeCopyPage(pages[idx].node);
               box = boundingBoxes[idx];
               matrix = transformationMatrices[idx];
@@ -19049,8 +19017,7 @@ var PDFDocument = (
               idx = 0, len = embeddables.length;
               _a.label = 1;
             case 1:
-              if (!(idx < len))
-                return [3, 4];
+              if (!(idx < len)) return [3, 4];
               return [4, embeddables[idx].embed()];
             case 2:
               _a.sent();
@@ -19909,15 +19876,22 @@ function modifyDest(doc) {
   });
   return data;
 }
+function convertMapKeysToLowercase(map) {
+  return new Map(Array.from(map).map(([key, value]) => [key == null ? void 0 : key.toLowerCase(), value]));
+}
 function fixAnchors(doc, dest, basename) {
+  const lowerDest = convertMapKeysToLowercase(dest);
   doc.querySelectorAll("a.internal-link").forEach((el, i) => {
-    var _a, _b;
+    var _a, _b, _c;
     const [title, anchor] = (_b = (_a = el.dataset.href) == null ? void 0 : _a.split("#")) != null ? _b : [];
+    if (anchor == null ? void 0 : anchor.startsWith("^")) {
+      el.href = (_c = el.dataset.href) == null ? void 0 : _c.toLowerCase();
+    }
     if ((anchor == null ? void 0 : anchor.length) > 0) {
       if ((title == null ? void 0 : title.length) > 0 && title != basename) {
         return;
       }
-      const flag3 = dest.get(anchor);
+      const flag3 = dest.get(anchor) || lowerDest.get(anchor == null ? void 0 : anchor.toLowerCase());
       if (flag3 && !anchor.startsWith("^")) {
         el.href = `an://${flag3}`;
       }
@@ -20053,8 +20027,7 @@ function generateOutlines(root, positions, maxLevel = 6) {
 var walk = (outlines, callback) => {
   for (const outline of outlines) {
     const ret = callback(outline);
-    if ("children" in outline && ret !== false)
-      walk(outline.children, callback);
+    if ("children" in outline && ret !== false) walk(outline.children, callback);
   }
 };
 var flatten = (outlines) => {
@@ -20392,8 +20365,25 @@ async function renderMarkdown(app, file, config, extra) {
     lines[idx] = `<span id="^${key}" class="blockid"></span>
 ` + lines[idx];
   });
+  const fragment = {
+    children: void 0,
+    appendChild(e) {
+      this.children = e == null ? void 0 : e.children;
+      throw new Error("exit");
+    }
+  };
   const promises = [];
-  await import_obsidian2.MarkdownRenderer.render(app, lines.join("\n"), viewEl, file.path, comp);
+  try {
+    await import_obsidian2.MarkdownRenderer.render(app, lines.join("\n"), fragment, file.path, comp);
+  } catch (error2) {
+  }
+  const el = createFragment();
+  Array.from(fragment.children).forEach((item) => {
+    el.createDiv({}, (t) => {
+      return t.appendChild(item);
+    });
+  });
+  viewEl.appendChild(el);
   await import_obsidian2.MarkdownRenderer.postProcess(app, {
     docId: generateDocId(16),
     sourcePath: file.path,
@@ -20410,13 +20400,13 @@ async function renderMarkdown(app, file, config, extra) {
     displayMode: true
   });
   await Promise.all(promises);
-  printEl.findAll("a.internal-link").forEach((el) => {
+  printEl.findAll("a.internal-link").forEach((el2) => {
     var _a2, _b2;
-    const [title, anchor] = (_b2 = (_a2 = el.dataset.href) == null ? void 0 : _a2.split("#")) != null ? _b2 : [];
+    const [title, anchor] = (_b2 = (_a2 = el2.dataset.href) == null ? void 0 : _a2.split("#")) != null ? _b2 : [];
     if ((!title || (title == null ? void 0 : title.length) == 0 || title == file.basename) && (anchor == null ? void 0 : anchor.startsWith("^"))) {
       return;
     }
-    el.removeAttribute("href");
+    el2.removeAttribute("href");
   });
   try {
     await fixWaitRender(data, viewEl);
@@ -20517,6 +20507,7 @@ var ExportConfigModal = class extends import_obsidian3.Modal {
     this.plugin = plugin;
     this.file = file;
     this.completed = false;
+    this.i18n = i18n_default.current;
     this.config = {
       pageSize: "A4",
       marginType: "1",
@@ -20754,7 +20745,7 @@ ${px2mm(width)}\xD7${px2mm(height)}mm`;
     debugEl.settingEl.hidden = !this.plugin.settings.debug;
   }
   generateForm(contentEl) {
-    new import_obsidian3.Setting(contentEl).setName("Include file name as title").addToggle(
+    new import_obsidian3.Setting(contentEl).setName(this.i18n.exportDialog.filenameAsTitle).addToggle(
       (toggle) => toggle.setTooltip("Include file name as title").setValue(this.config["showTitle"]).onChange(async (value) => {
         var _a;
         this.config["showTitle"] = value;
@@ -20780,7 +20771,7 @@ ${px2mm(width)}\xD7${px2mm(height)}mm`;
       "Ledger",
       "Custom"
     ];
-    new import_obsidian3.Setting(contentEl).setName("Page size").addDropdown((dropdown) => {
+    new import_obsidian3.Setting(contentEl).setName(this.i18n.exportDialog.pageSize).addDropdown((dropdown) => {
       dropdown.addOptions(Object.fromEntries(pageSizes.map((size) => [size, size]))).setValue(this.config.pageSize).onChange(async (value) => {
         this.config["pageSize"] = value;
         if (value == "Custom") {
@@ -20813,7 +20804,7 @@ ${px2mm(width)}\xD7${px2mm(height)}mm`;
       });
     });
     sizeEl.settingEl.hidden = this.config["pageSize"] !== "Custom";
-    new import_obsidian3.Setting(contentEl).setName("Margin").setDesc("The unit is millimeters.").addDropdown((dropdown) => {
+    new import_obsidian3.Setting(contentEl).setName(this.i18n.exportDialog.margin).setDesc("The unit is millimeters.").addDropdown((dropdown) => {
       dropdown.addOption("0", "None").addOption("1", "Default").addOption("2", "Small").addOption("3", "Custom").setValue(this.config["marginType"]).onChange(async (value) => {
         this.config["marginType"] = value;
         if (value == "3") {
@@ -20849,35 +20840,35 @@ ${px2mm(width)}\xD7${px2mm(height)}mm`;
       });
     });
     btmEl.settingEl.hidden = this.config["marginType"] != "3";
-    new import_obsidian3.Setting(contentEl).setName("Downscale percent").addSlider((slider) => {
+    new import_obsidian3.Setting(contentEl).setName(this.i18n.exportDialog.downscalePercent).addSlider((slider) => {
       slider.setLimits(0, 100, 1).setValue(this.config["scale"]).onChange(async (value) => {
         this.config["scale"] = value;
         slider.showTooltip();
       });
     });
-    new import_obsidian3.Setting(contentEl).setName("Landscape").addToggle(
+    new import_obsidian3.Setting(contentEl).setName(this.i18n.exportDialog.landscape).addToggle(
       (toggle) => toggle.setTooltip("landscape").setValue(this.config["landscape"]).onChange(async (value) => {
         this.config["landscape"] = value;
       })
     );
-    new import_obsidian3.Setting(contentEl).setName("Display header").addToggle(
+    new import_obsidian3.Setting(contentEl).setName(this.i18n.exportDialog.displayHeader).addToggle(
       (toggle) => toggle.setTooltip("Display header").setValue(this.config["displayHeader"]).onChange(async (value) => {
         this.config["displayHeader"] = value;
       })
     );
-    new import_obsidian3.Setting(contentEl).setName("Display footer").addToggle(
+    new import_obsidian3.Setting(contentEl).setName(this.i18n.exportDialog.displayFooter).addToggle(
       (toggle) => toggle.setTooltip("Display footer").setValue(this.config["displayFooter"]).onChange(async (value) => {
         this.config["displayFooter"] = value;
       })
     );
-    new import_obsidian3.Setting(contentEl).setName("Open after export").addToggle(
+    new import_obsidian3.Setting(contentEl).setName(this.i18n.exportDialog.openAfterExport).addToggle(
       (toggle) => toggle.setTooltip("Open the exported file after exporting.").setValue(this.config["open"]).onChange(async (value) => {
         this.config["open"] = value;
       })
     );
     const snippets = this.cssSnippets();
     if (Object.keys(snippets).length > 0 && this.plugin.settings.enabledCss) {
-      new import_obsidian3.Setting(contentEl).setName("CSS snippets").addDropdown((dropdown) => {
+      new import_obsidian3.Setting(contentEl).setName(this.i18n.exportDialog.cssSnippets).addDropdown((dropdown) => {
         dropdown.addOption("0", "Not select").addOptions(snippets).setValue(this.config["cssSnippet"]).onChange(async (value) => {
           this.config["cssSnippet"] = value;
           this.previewDiv.empty();
@@ -20923,6 +20914,7 @@ var ConfigSettingTab = class extends import_obsidian4.PluginSettingTab {
   constructor(app, plugin) {
     super(app, plugin);
     this.plugin = plugin;
+    this.i18n = i18n_default.current;
   }
   display() {
     const { containerEl } = this;
@@ -20933,43 +20925,45 @@ var ConfigSettingTab = class extends import_obsidian4.PluginSettingTab {
     });
     new import_obsidian4.Setting(containerEl).setDesc(supportDesc);
     renderBuyMeACoffeeBadge(containerEl);
-    new import_obsidian4.Setting(containerEl).setName("Add file name as title").addToggle(
-      (toggle) => toggle.setTooltip("Add filename as title").setValue(this.plugin.settings.showTitle).onChange(async (value) => {
+    new import_obsidian4.Setting(containerEl).setName(this.i18n.settings.showTitle).addToggle(
+      (toggle) => toggle.setTooltip(this.i18n.settings.showTitle).setValue(this.plugin.settings.showTitle).onChange(async (value) => {
         this.plugin.settings.showTitle = value;
         this.plugin.saveSettings();
       })
     );
-    new import_obsidian4.Setting(containerEl).setName("Display header").addToggle(
+    new import_obsidian4.Setting(containerEl).setName(this.i18n.settings.displayHeader).addToggle(
       (toggle) => toggle.setTooltip("Display header").setValue(this.plugin.settings.displayHeader).onChange(async (value) => {
         this.plugin.settings.displayHeader = value;
         this.plugin.saveSettings();
       })
     );
-    new import_obsidian4.Setting(containerEl).setName("Display footer").addToggle(
+    new import_obsidian4.Setting(containerEl).setName(this.i18n.settings.displayFooter).addToggle(
       (toggle) => toggle.setTooltip("Display footer").setValue(this.plugin.settings.displayFooter).onChange(async (value) => {
         this.plugin.settings.displayFooter = value;
         this.plugin.saveSettings();
       })
     );
-    new import_obsidian4.Setting(containerEl).setName("Print background").setDesc("Whether to print background graphics").addToggle(
+    new import_obsidian4.Setting(containerEl).setName(this.i18n.settings.printBackground).setDesc("Whether to print background graphics").addToggle(
       (toggle) => toggle.setValue(this.plugin.settings.printBackground).onChange(async (value) => {
         this.plugin.settings.printBackground = value;
         this.plugin.saveSettings();
       })
     );
-    new import_obsidian4.Setting(containerEl).setName("Generate tagged PDF").setDesc("Whether or not to generate a tagged (accessible) PDF. Defaults to false. As this property is experimental, the generated PDF may not adhere fully to PDF/UA and WCAG standards.").addToggle(
+    new import_obsidian4.Setting(containerEl).setName("Generate tagged PDF").setDesc(
+      "Whether or not to generate a tagged (accessible) PDF. Defaults to false. As this property is experimental, the generated PDF may not adhere fully to PDF/UA and WCAG standards."
+    ).addToggle(
       (toggle) => toggle.setValue(this.plugin.settings.generateTaggedPDF).onChange(async (value) => {
         this.plugin.settings.generateTaggedPDF = value;
         this.plugin.saveSettings();
       })
     );
-    new import_obsidian4.Setting(containerEl).setName("Max headings level of the outline").addDropdown((dropdown) => {
+    new import_obsidian4.Setting(containerEl).setName(this.i18n.settings.maxLevel).addDropdown((dropdown) => {
       dropdown.addOptions(Object.fromEntries(["1", "2", "3", "4", "5", "6"].map((level) => [level, `h${level}`]))).setValue(this.plugin.settings.maxLevel).onChange(async (value) => {
         this.plugin.settings.maxLevel = value;
         this.plugin.saveSettings();
       });
     });
-    new import_obsidian4.Setting(containerEl).setName("PDF metadata").setDesc("Add frontMatter(title, author, keywords, subject creator, etc) to pdf metadata").addToggle(
+    new import_obsidian4.Setting(containerEl).setName(this.i18n.settings.displayMetadata).setDesc("Add frontMatter(title, author, keywords, subject creator, etc) to pdf metadata").addToggle(
       (toggle) => toggle.setValue(this.plugin.settings.displayMetadata).onChange(async (value) => {
         this.plugin.settings.displayMetadata = value;
         this.plugin.saveSettings();
@@ -20978,7 +20972,7 @@ var ConfigSettingTab = class extends import_obsidian4.PluginSettingTab {
     new import_obsidian4.Setting(containerEl).setName("Advanced").setHeading();
     const headerContentAreaSetting = new import_obsidian4.Setting(containerEl);
     headerContentAreaSetting.settingEl.setAttribute("style", "display: grid; grid-template-columns: 1fr;");
-    headerContentAreaSetting.setName("Header Template").setDesc(
+    headerContentAreaSetting.setName(this.i18n.settings.headerTemplate).setDesc(
       'HTML template for the print header. Should be valid HTML markup with following classes used to inject printing values into them: date (formatted print date), title (document title), url (document location), pageNumber (current page number) and totalPages (total pages in the document). For example, <span class="title"></span> would generate span containing the title.'
     );
     const hederContentArea = new import_obsidian4.TextAreaComponent(headerContentAreaSetting.controlEl);
@@ -20991,7 +20985,7 @@ var ConfigSettingTab = class extends import_obsidian4.PluginSettingTab {
     });
     const footerContentAreaSetting = new import_obsidian4.Setting(containerEl);
     footerContentAreaSetting.settingEl.setAttribute("style", "display: grid; grid-template-columns: 1fr;");
-    footerContentAreaSetting.setName("Footer Template").setDesc("HTML template for the print footer. Should use the same format as the headerTemplate.");
+    footerContentAreaSetting.setName(this.i18n.settings.footerTemplate).setDesc("HTML template for the print footer. Should use the same format as the headerTemplate.");
     const footerContentArea = new import_obsidian4.TextAreaComponent(footerContentAreaSetting.controlEl);
     setAttributes(footerContentArea.inputEl, {
       style: "margin-top: 12px; width: 100%; height: 6vh;"
@@ -21000,20 +20994,20 @@ var ConfigSettingTab = class extends import_obsidian4.PluginSettingTab {
       this.plugin.settings.footerTemplate = value;
       this.plugin.saveSettings();
     });
-    new import_obsidian4.Setting(containerEl).setName("Add timestamp").setDesc("Add timestamp to output file name").addToggle((cb) => {
+    new import_obsidian4.Setting(containerEl).setName(this.i18n.settings.isTimestamp).setDesc("Add timestamp to output file name").addToggle((cb) => {
       cb.setValue(this.plugin.settings.isTimestamp).onChange(async (value) => {
         this.plugin.settings.isTimestamp = value;
         await this.plugin.saveSettings();
       });
     });
-    new import_obsidian4.Setting(containerEl).setName("Select css snippets").setDesc("Select the css snippet that are not enabled").addToggle((cb) => {
+    new import_obsidian4.Setting(containerEl).setName(this.i18n.settings.enabledCss).setDesc("Select the css snippet that are not enabled").addToggle((cb) => {
       cb.setValue(this.plugin.settings.enabledCss).onChange(async (value) => {
         this.plugin.settings.enabledCss = value;
         await this.plugin.saveSettings();
       });
     });
     new import_obsidian4.Setting(containerEl).setName("Debug").setHeading();
-    new import_obsidian4.Setting(containerEl).setName("Debug mode").setDesc("This is useful for troubleshooting.").addToggle((cb) => {
+    new import_obsidian4.Setting(containerEl).setName(this.i18n.settings.debugMode).setDesc("This is useful for troubleshooting.").addToggle((cb) => {
       cb.setValue(this.plugin.settings.debug).onChange(async (value) => {
         this.plugin.settings.debug = value;
         await this.plugin.saveSettings();
@@ -21039,6 +21033,10 @@ var DEFAULT_SETTINGS = {
   enabledCss: false
 };
 var BetterExportPdfPlugin = class extends import_obsidian5.Plugin {
+  constructor(app, manifest) {
+    super(app, manifest);
+    this.i18n = i18n_default.current;
+  }
   async onload() {
     await this.loadSettings();
     this.registerCommand();
@@ -21048,7 +21046,7 @@ var BetterExportPdfPlugin = class extends import_obsidian5.Plugin {
   registerCommand() {
     this.addCommand({
       id: "export-current-file-to-pdf",
-      name: "Export current file to PDF",
+      name: this.i18n.exportCurrentFile,
       checkCallback: (checking) => {
         var _a;
         const view = this.app.workspace.getActiveViewOfType(import_obsidian5.MarkdownView);

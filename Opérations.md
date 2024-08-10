@@ -1,5 +1,5 @@
 ---
-updated: 2024-06-09T20:18
+updated: 2024-08-01T12:47
 succ:
   - "[[Ensembles]]"
   - "[[Arithmétique]]"
@@ -80,3 +80,22 @@ multiplication de 2 fractions :
 fraction de fraction :
 ![[Opérations 2024-04-01 18.05.41.excalidraw]]
 On comprend ainsi la phrase "diviser c'est multiplier par l'inverse"
+
+# Somme
+Soient $i,j\in \mathbb{N}$ tels que $i<j$ et $a\in \mathbb{C}\backslash\{1\}$.
+$$
+\sum\limits_{k=i}^{j}a^k=\dfrac{a^{j+1}-a^{i}}{(a-1)}
+$$
+## démonstration
+Posons $S=\sum\limits_{k=i}^{j}a^k$
+$$
+\begin{align*}
+aS &= \sum\limits_{k=i}^{j}a^{k+1}\\
+aS-S&= S(a-1)=\sum\limits_{k=i+1}^{j+1}a^{k}-\sum\limits_{k=i}^{j}a^k=a^{j+1}-a^{i}\\
+S&=\begin{cases}
+\dfrac{a^{j+1}-a^{i}}{(a-1)} &\text{ si } a\neq 1\\
+j-i+1 &\text{sinon}
+
+\end{cases}
+\end{align*}
+$$

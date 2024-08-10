@@ -1,5 +1,5 @@
 ---
-updated: 2024-06-15T11:12
+updated: 2024-08-02T23:46
 succ: 
 done: true
 ---
@@ -8,7 +8,7 @@ NB: Toutes les mesures ne sont pas prises en compte ici pour le moment, on se re
 Soit $f : \mathbb{R} \to \mathbb{R}$ une fonction continue.
 Soient $a,b \in \mathbb{R}$ tels que $a < b$.
 # Intégrale
-On note l'intégrale de la fonction $f$ de $a$ à $b$ par $\int_a^b f(x) dx$.w
+On note l'intégrale de la fonction $f$ de $a$ à $b$ par $\int_a^b f(x) dx$.
 C'est l'aire signée de la courbe de la fonction jusqu'à l'axe des abscisses de $a$ à $b$.
 
 ![[Intégration 2024-06-14 18.23.32.excalidraw]]

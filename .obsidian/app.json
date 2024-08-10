@@ -1,5 +1,5 @@
 {
-  "promptDelete": true,
+  "promptDelete": false,
   "pdfExportSettings": {
     "includeName": true,
     "pageSize": "A4",
