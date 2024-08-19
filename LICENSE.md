@@ -1,6 +1,3 @@
----
-updated: 2024-06-14T16:57
----
 Attribution-NonCommercial-ShareAlike 4.0 International
 
 =======================================================================

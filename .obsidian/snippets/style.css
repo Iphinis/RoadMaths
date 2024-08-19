@@ -1,0 +1,4 @@
+/* To suppress underlines */
+.internal-link, .external-link {
+    text-decoration: none !important;
+}

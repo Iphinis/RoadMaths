@@ -1,11 +1,11 @@
 {
   "collapse-filter": false,
-  "search": "path:\"Algorithmique Numérique\"  ",
+  "search": "",
   "showTags": false,
   "showAttachments": false,
   "hideUnresolved": false,
   "showOrphans": true,
-  "collapse-color-groups": false,
+  "collapse-color-groups": true,
   "colorGroups": [
     {
       "query": "[\"done\":true]",
@@ -32,6 +32,6 @@
   "repelStrength": 6.30837958575877,
   "linkStrength": 0,
   "linkDistance": 262,
-  "scale": 1.0000000000000153,
-  "close": false
+  "scale": 0.1166089157945732,
+  "close": true
 }

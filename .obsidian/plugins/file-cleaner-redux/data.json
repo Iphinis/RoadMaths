@@ -1,0 +1,16 @@
+{
+  "deletionDestination": "obsidian",
+  "excludeInclude": 0,
+  "excludedFolders": [],
+  "attachmentsExcludeInclude": 1,
+  "attachmentExtensions": [
+    "*",
+    "excalidraw.md",
+    "md",
+    "excalidraw.*"
+  ],
+  "deletionConfirmation": true,
+  "runOnStartup": false,
+  "removeFolders": true,
+  "ignoredFrontmatter": []
+}

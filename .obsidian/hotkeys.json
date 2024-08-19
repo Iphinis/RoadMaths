@@ -16,13 +16,5 @@
       "key": "D"
     }
   ],
-  "editor:delete-paragraph": [],
-  "insert-template": [
-    {
-      "modifiers": [
-        "Alt"
-      ],
-      "key": "M"
-    }
-  ]
+  "editor:delete-paragraph": []
 }

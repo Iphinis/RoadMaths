@@ -1,6 +1,0 @@
----
-updated: 2024-06-13T20:01
-succ:
-  - "[[Intégration]]"
-done: 
----

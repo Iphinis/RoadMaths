@@ -1,18 +1,13 @@
 [
   "obsidian-excalidraw-plugin",
   "quick-latex",
-  "obsidian-desmos",
   "settings-search",
-  "dataview",
   "obsidian-auto-link-title",
-  "update-time-on-edit",
-  "templater-obsidian",
-  "link-exploder",
-  "persistent-graph",
-  "soundscapes",
   "obsidian-table-generator",
-  "oz-clear-unused-images",
-  "image2latex",
-  "obsidian-functionplot",
-  "better-export-pdf"
+  "better-export-pdf",
+  "soundscapes",
+  "custom-sort",
+  "file-cleaner-redux",
+  "hide-folders",
+  "templater-obsidian"
 ]

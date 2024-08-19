@@ -1,0 +1,22 @@
+---
+sources:
+  - https://fr.wikipedia.org/wiki/Histoire_des_nombres_complexes
+created: 2024-08-10T14:27
+---
+
+# Histoire
+Tout commence en 1535 avec [Tartaglia](https://fr.wikipedia.org/wiki/Niccol%C3%B2_Fontana_Tartaglia) qui, alors en concurrence avec [Antonio Maria del Fiore](https://fr.wikipedia.org/wiki/Antonio_Maria_del_Fiore), doit résoudre 30 équations du troisième degré de la forme $x^3+px=q$. Il trouverait alors la résolution générale de ce type d'équations la veille nocturne de la date limite. Il ne dévoile cependant pas sa formule.
+Cependant, [Cardan](https://fr.wikipedia.org/wiki/J%C3%A9r%C3%B4me_Cardan) s'empare de celle-ci à Milan en 1539 et se l'approprie dans son ouvrage latin [Ars Magna (Girolamo Cardano)](https://fr.wikipedia.org/wiki/Ars_Magna_(Girolamo_Cardano)) .
+
+Il y tente notamment de résoudre l'équation suivante :
+$$
+x(10-x)=40
+$$
+
+On peut tenter de le résoudre nous-même :
+$$
+\begin{align*}
+x(10-x)&= 40\\
+-x^2+10x-40&= 0
+\end{align*}
+$$

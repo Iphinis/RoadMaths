@@ -1,6 +1,3 @@
----
-updated: 2024-06-14T17:06
----
 # RoadMaths
 
 RoadMaths est un projet visant à revoir les concepts mathématiques depuis les bases jusqu'à des niveaux plus avancés, utilisant Obsidian comme outil de prise de notes.

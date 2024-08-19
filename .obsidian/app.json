@@ -15,17 +15,21 @@
   "alwaysUpdateLinks": true,
   "showUnsupportedFiles": true,
   "userIgnoreFilters": [
-    "Templates/",
-    "/.excalidraw.md$/",
-    "Plan et ressources",
     "README",
-    "LICENSE"
+    "LICENSE",
+    "tmp/",
+    "Ressources/",
+    "/[tT][eE][mM][pP][lL][aA][tT][eE][sS]/",
+    "/[sS][rR][cC]/",
+    "/[tT][mM][pP]/"
   ],
-  "attachmentFolderPath": "attachments",
+  "attachmentFolderPath": "./src",
   "defaultViewMode": "preview",
   "focusNewTab": false,
   "livePreview": true,
   "readableLineLength": true,
   "showInlineTitle": true,
-  "propertiesInDocument": "source"
+  "propertiesInDocument": "source",
+  "useMarkdownLinks": false,
+  "newLinkFormat": "shortest"
 }
