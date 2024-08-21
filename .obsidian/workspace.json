@@ -1,0 +1,134 @@
+{
+  "main": {
+    "id": "11bfe6c60934c319",
+    "type": "split",
+    "children": [
+      {
+        "id": "da5dc5881d57f170",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "26c57ae0062302be",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "525b0033973c8f27",
+    "type": "split",
+    "children": [
+      {
+        "id": "6ac45bf820507735",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a43d0c47e7be1be8",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "109c1d2ed89aa0cf",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "095b20eda1fbb9f6",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "751d3779555cb368",
+    "type": "split",
+    "children": [
+      {
+        "id": "778a54536cb3ee50",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1f298e3772b70edf",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "9c4d3b53b1b7cf75",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "5182d6ccb72a712b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "obsidian-excalidraw-plugin:Create new drawing": true,
+      "file-cleaner-redux:Clean files": false,
+      "ribbon-divider:ribbon-divider-45a4caf7-70f9-489b-aaae-a3e1c17e6a39": false,
+      "custom-sort:Toggle custom sorting": false,
+      "hide-folders:Show hidden folders": false,
+      "templater-obsidian:Templater": true,
+      "switcher:Ouvrir le sélecteur rapide": true,
+      "graph:Ouvrir la vue graphique": true,
+      "canvas:Créer une nouvelle toile": true,
+      "daily-notes:Ouvrir la note quotidienne": true,
+      "templates:Insérer le modèle": true,
+      "command-palette:Ouvrir la palette de commandes": true,
+      "random-note:Ouvre une note au hasard": true
+    }
+  },
+  "active": "26c57ae0062302be",
+  "lastOpenFiles": []
+}

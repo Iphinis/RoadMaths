@@ -25,3 +25,4 @@ Mais l'approximation la plus juste pour l'époque était obtenue grâce à ?
 ![[Pi-unrolled-720.gif]]
 
 On note parfois $2\pi=\tau$ pour simplifier les notations.
+

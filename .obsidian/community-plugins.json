@@ -9,5 +9,6 @@
   "custom-sort",
   "file-cleaner-redux",
   "hide-folders",
-  "templater-obsidian"
+  "templater-obsidian",
+  "ribbon-divider"
 ]
