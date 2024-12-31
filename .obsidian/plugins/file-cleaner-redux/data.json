@@ -1,13 +1,12 @@
 {
   "deletionDestination": "obsidian",
+  "obsidianTrashCleanupAge": 60,
   "excludeInclude": 0,
   "excludedFolders": [
     "tmp/"
   ],
   "attachmentsExcludeInclude": 1,
-  "attachmentExtensions": [
-    "*"
-  ],
+  "attachmentExtensions": [],
   "deletionConfirmation": true,
   "runOnStartup": false,
   "removeFolders": true,

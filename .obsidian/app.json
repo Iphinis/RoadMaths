@@ -1,36 +1,6 @@
 {
-  "promptDelete": false,
-  "pdfExportSettings": {
-    "includeName": true,
-    "pageSize": "A4",
-    "landscape": false,
-    "margin": "0",
-    "downscalePercent": 100
-  },
-  "strictLineBreaks": false,
-  "foldHeading": true,
-  "showLineNumber": false,
-  "showIndentGuide": false,
-  "trashOption": "local",
+  "userIgnoreFilters": [],
   "alwaysUpdateLinks": true,
-  "showUnsupportedFiles": true,
-  "userIgnoreFilters": [
-    "README",
-    "LICENSE",
-    "tmp/",
-    "Ressources/",
-    "/excalidraw/",
-    "/[tT][eE][mM][pP][lL][aA][tT][eE][sS]/",
-    "/[sS][rR][cC]/",
-    "/[tT][mM][pP]/"
-  ],
-  "attachmentFolderPath": "./src",
-  "defaultViewMode": "preview",
-  "focusNewTab": false,
-  "livePreview": true,
-  "readableLineLength": true,
-  "showInlineTitle": true,
-  "propertiesInDocument": "source",
-  "useMarkdownLinks": false,
-  "newLinkFormat": "shortest"
+  "promptDelete": false,
+  "trashOption": "local"
 }

@@ -14973,14 +14973,14 @@ var parameters = /* @__PURE__ */ new Map([
   ["Z", 0],
   ["z", 0]
 ]);
-var parse = function(path2) {
+var parse = function(path3) {
   var cmd;
   var ret = [];
   var args = [];
   var curArg = "";
   var foundDecimal = false;
   var params = 0;
-  for (var _i = 0, path_1 = path2; _i < path_1.length; _i++) {
+  for (var _i = 0, path_1 = path3; _i < path_1.length; _i++) {
     var c = path_1[_i];
     if (parameters.has(c)) {
       params = parameters.get(c);
@@ -15294,8 +15294,8 @@ var segmentToBezier = function(cx1, cy1, th0, th1, rx, ry, sinTh, cosTh) {
   ];
   return result;
 };
-var svgPathToOperators = function(path2) {
-  return apply(parse(path2));
+var svgPathToOperators = function(path3) {
+  return apply(parse(path3));
 };
 
 // node_modules/.pnpm/pdf-lib@1.17.1/node_modules/pdf-lib/es/api/operations.js
@@ -15452,7 +15452,7 @@ var drawEllipse = function(options) {
     popGraphicsState()
   ]).filter(Boolean);
 };
-var drawSvgPath = function(path2, options) {
+var drawSvgPath = function(path3, options) {
   var _a, _b, _c;
   return __spreadArrays([
     pushGraphicsState(),
@@ -15466,7 +15466,7 @@ var drawSvgPath = function(path2, options) {
     options.borderWidth && setLineWidth(options.borderWidth),
     options.borderLineCap && setLineCap(options.borderLineCap),
     setDashPattern((_b = options.borderDashArray) !== null && _b !== void 0 ? _b : [], (_c = options.borderDashPhase) !== null && _c !== void 0 ? _c : 0)
-  ], svgPathToOperators(path2), [
+  ], svgPathToOperators(path3), [
     // prettier-ignore
     options.color && options.borderWidth ? fillAndStroke() : options.color ? fill() : options.borderColor ? stroke() : closePath(),
     popGraphicsState()
@@ -19448,12 +19448,12 @@ var PDFPage = (
         graphicsState: graphicsStateKey
       }));
     };
-    PDFPage2.prototype.drawSvgPath = function(path2, options) {
+    PDFPage2.prototype.drawSvgPath = function(path3, options) {
       var _a, _b, _c, _d, _e, _f, _g, _h, _j;
       if (options === void 0) {
         options = {};
       }
-      assertIs(path2, "path", ["string"]);
+      assertIs(path3, "path", ["string"]);
       assertOrUndefined(options.x, "options.x", ["number"]);
       assertOrUndefined(options.y, "options.y", ["number"]);
       assertOrUndefined(options.scale, "options.scale", ["number"]);
@@ -19482,7 +19482,7 @@ var PDFPage = (
         options.borderColor = rgb(0, 0, 0);
       }
       var contentStream = this.getContentStream();
-      contentStream.push.apply(contentStream, drawSvgPath(path2, {
+      contentStream.push.apply(contentStream, drawSvgPath(path3, {
         x: (_a = options.x) !== null && _a !== void 0 ? _a : this.x,
         y: (_b = options.y) !== null && _b !== void 0 ? _b : this.y,
         scale: options.scale,
@@ -19909,16 +19909,16 @@ var px2mm = (px2) => {
 var mm2px = (mm) => {
   return Math.round(mm * 3.779527559);
 };
-function traverseFolder(path2) {
-  if (path2 instanceof import_obsidian.TFile) {
-    if (path2.extension == "md") {
-      return [path2];
+function traverseFolder(path3) {
+  if (path3 instanceof import_obsidian.TFile) {
+    if (path3.extension == "md") {
+      return [path3];
     } else {
       return [];
     }
   }
   const arr = [];
-  for (const item of path2.children) {
+  for (const item of path3.children) {
     arr.push(...traverseFolder(item));
   }
   return arr;
@@ -20136,7 +20136,11 @@ function setMetadata(pdfDoc, { title, author, keywords, subject, creator, create
     pdfDoc.setTitle(title, { showInWindowTitleBar: true });
   }
   if (author) {
-    pdfDoc.setAuthor(author);
+    if (Array.isArray(author)) {
+      pdfDoc.setAuthor(author.join(", "));
+    } else {
+      pdfDoc.setAuthor(author.toString());
+    }
   }
   if (keywords) {
     pdfDoc.setKeywords(typeof keywords == "string" ? [keywords] : keywords);
@@ -20337,7 +20341,7 @@ function getFrontMatter(app, file) {
   return (_a = cache == null ? void 0 : cache.frontmatter) != null ? _a : {};
 }
 async function renderMarkdown(app, file, config, extra) {
-  var _a, _b, _c, _d, _e, _f, _g, _h;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i;
   const startTime = (/* @__PURE__ */ new Date()).getTime();
   const ws = app.workspace;
   if (((_a = ws.getActiveFile()) == null ? void 0 : _a.path) != file.path) {
@@ -20369,7 +20373,7 @@ async function renderMarkdown(app, file, config, extra) {
   app.vault.cachedRead(file);
   viewEl.toggleClass("rtl", app.vault.getConfig("rightToLeft"));
   viewEl.toggleClass("show-properties", "hidden" !== app.vault.getConfig("propertiesInDocument"));
-  const title = (_f = extra == null ? void 0 : extra.title) != null ? _f : file.basename;
+  const title = (_g = (_f = extra == null ? void 0 : extra.title) != null ? _f : frontMatter == null ? void 0 : frontMatter.title) != null ? _g : file.basename;
   viewEl.createEl("h1", { text: title }, (e) => {
     var _a2;
     e.addClass("__title__");
@@ -20377,8 +20381,8 @@ async function renderMarkdown(app, file, config, extra) {
     e.id = (_a2 = extra == null ? void 0 : extra.id) != null ? _a2 : "";
   });
   const cache = app.metadataCache.getFileCache(file);
-  const blocks = new Map(Object.entries((_g = cache == null ? void 0 : cache.blocks) != null ? _g : {}));
-  const lines = ((_h = data == null ? void 0 : data.split("\n")) != null ? _h : []).map((line, i) => {
+  const blocks = new Map(Object.entries((_h = cache == null ? void 0 : cache.blocks) != null ? _h : {}));
+  const lines = ((_i = data == null ? void 0 : data.split("\n")) != null ? _i : []).map((line, i) => {
     for (const {
       id,
       position: { start, end }
@@ -20566,7 +20570,7 @@ var ExportConfigModal = class extends import_obsidian3.Modal {
   async renderFiles() {
     var _a, _b;
     const app = this.plugin.app;
-    const docs = [];
+    let docs = [];
     if (this.file instanceof import_obsidian3.TFolder) {
       const files = traverseFolder(this.file);
       for (const file of files) {
@@ -20597,7 +20601,7 @@ var ExportConfigModal = class extends import_obsidian3.Modal {
       }
     }
     if (!this.multiplePdf) {
-      this.mergeDoc(docs);
+      docs = this.mergeDoc(docs);
     }
     this.docs = docs.map(({ doc, ...rest }) => {
       return { ...rest, doc: fixDoc(doc, doc.title) };
@@ -20623,7 +20627,7 @@ var ExportConfigModal = class extends import_obsidian3.Modal {
     sections.forEach((section) => {
       root == null ? void 0 : root.appendChild(section);
     });
-    this.docs = [{ doc: doc0, frontMatter, file }];
+    return [{ doc: doc0, frontMatter, file }];
   }
   calcPageSize(element, config) {
     var _a, _b, _c;
@@ -21089,6 +21093,8 @@ var ConfigSettingTab = class extends import_obsidian4.PluginSettingTab {
 };
 
 // src/main.ts
+var fs3 = __toESM(require("fs/promises"));
+var import_path2 = __toESM(require("path"));
 var isDev = false;
 var DEFAULT_SETTINGS = {
   showTitle: true,
@@ -21153,18 +21159,47 @@ var BetterExportPdfPlugin = class extends import_obsidian5.Plugin {
     this.registerEvent(
       this.app.workspace.on("file-menu", (menu, file) => {
         if (file instanceof import_obsidian5.TFolder) {
-          let title = "Export each file to PDF";
+          let title = "Export to PDF...";
           if (isDev) {
             title = `${title} (dev)`;
           }
           menu.addItem((item) => {
-            item.setTitle(title).setIcon("download").setSection("action").onClick(async () => {
-              new ExportConfigModal(this, file, true).open();
-            });
+            item.setTitle(title).setIcon("lucide-folder-down").setSection("action");
+            const subMenu = item.setSubmenu();
+            subMenu.addItem(
+              (item2) => item2.setTitle("Export each file to PDF").setIcon("lucide-file-stack").onClick(async () => {
+                new ExportConfigModal(this, file, true).open();
+              })
+            );
+            subMenu.addItem(
+              (item2) => item2.setTitle("Generate TOC.md file").setIcon("lucide-file-text").onClick(async () => {
+                await this.generateToc(file);
+              })
+            );
           });
         }
       })
     );
+  }
+  async generateToc(root) {
+    const basePath = this.app.vault.adapter.basePath;
+    const toc = import_path2.default.join(basePath, root.path, "_TOC_.md");
+    const content = `---
+toc: true
+title: ${root.name}
+---
+`;
+    await fs3.writeFile(toc, content);
+    if (root instanceof import_obsidian5.TFolder) {
+      const files = traverseFolder(root);
+      for (const file of files) {
+        if (file.name == "_TOC_.md") {
+          continue;
+        }
+        await fs3.appendFile(toc, `[[${file.path}]]
+`);
+      }
+    }
   }
   onunload() {
   }
@@ -21219,3 +21254,5 @@ tslib/tslib.es6.js:
   PERFORMANCE OF THIS SOFTWARE.
   ***************************************************************************** *)
 */
+
+/* nosourcemap */

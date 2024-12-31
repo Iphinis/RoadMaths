@@ -4084,6 +4084,10 @@ var enUS = {
           PermanentDelete: "Permanently delete"
         }
       },
+      ObsidianTrashCleanupAge: {
+        Label: "Trash directory age threshold",
+        Description: "Amount of days files can be in the `.trash` folder before they are permanently removed (minimum 1 day)."
+      },
       FolderFiltering: {
         Excluded: {
           Label: "Excluded folders",
@@ -4256,12 +4260,18 @@ function DeletionConfirmationModal({
     }),
     onConfirm
   );
+  const container = modal.content.createDiv();
+  container.setCssStyles({
+    marginTop: "0.5rem",
+    maxHeight: "50vh",
+    overflowY: "auto"
+  });
   const files = filesAndFolders.filter((file) => file instanceof import_obsidian.TFile);
   if (files.length > 0) {
-    modal.content.createEl("p", {
+    container.createEl("p", {
       text: translate().Modals.DeletionConfirmation.Files + ":"
     });
-    const ulFiles = modal.content.createEl("ul");
+    const ulFiles = container.createEl("ul");
     files.map((file) => {
       const li = ulFiles.createEl("li");
       li.createEl("a", { text: file.path });
@@ -4273,10 +4283,10 @@ function DeletionConfirmationModal({
   }
   const folders = filesAndFolders.filter((file) => file instanceof import_obsidian.TFolder);
   if (folders.length > 0) {
-    modal.content.createEl("p", {
+    container.createEl("p", {
       text: translate().Modals.DeletionConfirmation.Folders + ":"
     });
-    const ulFolders = modal.content.createEl("ul");
+    const ulFolders = container.createEl("ul");
     folders.map((file) => {
       const li = ulFolders.createEl("li");
       li.createEl("a", { text: file.path });
@@ -4305,6 +4315,7 @@ var ExcludeInclude = ((ExcludeInclude2) => {
 })(ExcludeInclude || {});
 var DEFAULT_SETTINGS = {
   deletionDestination: "system" /* SystemTrash */,
+  obsidianTrashCleanupAge: -1,
   excludeInclude: ExcludeInclude.Exclude,
   excludedFolders: [],
   attachmentsExcludeInclude: ExcludeInclude.Include,
@@ -4346,8 +4357,24 @@ var FileCleanerSettingTab = class extends import_obsidian2.PluginSettingTab {
             break;
         }
         this.plugin.saveSettings();
+        this.display();
       })
     );
+    this.plugin.settings.deletionDestination === "obsidian" /* ObsidianTrash */ && new import_obsidian2.Setting(containerEl).setName(
+      translate().Settings.RegularOptions.ObsidianTrashCleanupAge.Label
+    ).setDesc(
+      translate().Settings.RegularOptions.ObsidianTrashCleanupAge.Description
+    ).addText((text) => {
+      const days = this.plugin.settings.obsidianTrashCleanupAge;
+      text.setPlaceholder("7");
+      text.setValue(days >= 0 ? String(days) : "");
+      text.inputEl.style.minWidth = "18rem";
+      text.onChange((value) => {
+        const days2 = Number(value.match(/^\d+/)) || -1;
+        this.plugin.settings.obsidianTrashCleanupAge = days2;
+        this.plugin.saveSettings();
+      });
+    });
     new import_obsidian2.Setting(containerEl).setName(translate().Settings.RegularOptions.FolderFiltering.Label).setDesc(translate().Settings.RegularOptions.FolderFiltering.Description).addToggle((toggle) => {
       toggle.setValue(Boolean(this.plugin.settings.excludeInclude));
       toggle.onChange((value) => {
@@ -4368,8 +4395,10 @@ var FileCleanerSettingTab = class extends import_obsidian2.PluginSettingTab {
       text.setPlaceholder(
         translate().Settings.RegularOptions.FolderFiltering.Placeholder
       );
-      text.inputEl.rows = 8;
-      text.inputEl.cols = 30;
+      text.inputEl.style.minWidth = "18rem";
+      text.inputEl.style.maxWidth = "18rem";
+      text.inputEl.style.minHeight = "8rem";
+      text.inputEl.style.maxHeight = "16rem";
     });
     new import_obsidian2.Setting(containerEl).setName(translate().Settings.RegularOptions.Attachments.Label).setDesc(translate().Settings.RegularOptions.Attachments.Description).addToggle((toggle) => {
       toggle.setValue(
@@ -4395,8 +4424,10 @@ var FileCleanerSettingTab = class extends import_obsidian2.PluginSettingTab {
       text.setPlaceholder(
         this.plugin.settings.attachmentsExcludeInclude ? translate().Settings.RegularOptions.Attachments.Included.Placeholder : translate().Settings.RegularOptions.Attachments.Excluded.Placeholder
       );
-      text.inputEl.rows = 3;
-      text.inputEl.cols = 30;
+      text.inputEl.style.minWidth = "18rem";
+      text.inputEl.style.maxWidth = "18rem";
+      text.inputEl.style.minHeight = "4rem";
+      text.inputEl.style.maxHeight = "8rem";
     });
     new import_obsidian2.Setting(containerEl).setName(translate().Settings.RegularOptions.IgnoredFrontmatter.Label).setDesc(
       translate().Settings.RegularOptions.IgnoredFrontmatter.Description
@@ -4408,8 +4439,10 @@ var FileCleanerSettingTab = class extends import_obsidian2.PluginSettingTab {
       text.setPlaceholder(
         translate().Settings.RegularOptions.IgnoredFrontmatter.Placeholder
       );
-      text.inputEl.rows = 4;
-      text.inputEl.cols = 30;
+      text.inputEl.style.minWidth = "18rem";
+      text.inputEl.style.maxWidth = "18rem";
+      text.inputEl.style.minHeight = "4rem";
+      text.inputEl.style.maxHeight = "12rem";
     });
     new import_obsidian2.Setting(containerEl).setName(translate().Settings.RegularOptions.PreviewDeletedFiles.Label).setDesc(
       translate().Settings.RegularOptions.PreviewDeletedFiles.Description
@@ -4511,11 +4544,18 @@ function getExtensions(settings) {
   if (settings.attachmentExtensions.includes("*")) extensions.push(".*");
   return RegExp(`^(${["md", ...extensions].join("|")})$`);
 }
+function userHasPlugin(id, app) {
+  const plugins = app.plugins.plugins;
+  return plugins.hasOwnProperty(id);
+}
 
 // src/helpers/markdown.ts
 function checkMarkdown(file, app, settings) {
   return __async(this, null, function* () {
     if (file.extension !== "md") return false;
+    const metadata = app.metadataCache;
+    const links = metadata.getBacklinksForFile(file).data;
+    if (links.size > 0) return false;
     if (file.stat.size === 0) return true;
     const content = yield app.vault.cachedRead(file);
     if (content.trim().length === 0) return true;
@@ -4621,10 +4661,43 @@ function getAdmonitionAttachments(app) {
   });
 }
 
+// src/helpers/extras/excalidraw.ts
+function checkExcalidraw(file, app) {
+  return __async(this, null, function* () {
+    const metadata = app.metadataCache;
+    const frontmatter = metadata.getFileCache(file).frontmatter;
+    if (!frontmatter) return false;
+    if (!Object.keys(frontmatter).contains("excalidraw-plugin") && frontmatter.excalidraw !== "parsed")
+      return false;
+    const links = metadata.getBacklinksForFile(file).keys();
+    if (links.length > 0) return false;
+    const content = yield app.vault.cachedRead(file);
+    const blockStart = content.search(/{[ \t\n]*"type":[ ]*"excalidraw"/);
+    const blockEnd = content.search(/```\n?%%/);
+    if (blockStart < 0) return false;
+    if (blockEnd < 0) {
+      console.warn(
+        `Could not determine codeblock boundary for the following Excalidraw file: ${file.path}`
+      );
+      return false;
+    }
+    const codeBlockRaw = content.slice(blockStart, blockEnd);
+    if (codeBlockRaw.length === 0) return false;
+    const data = JSON.parse(codeBlockRaw);
+    const elements = data.elements;
+    if (elements.length === 0) return true;
+    const activeElements = elements.filter((el) => !el.isDeleted);
+    if (activeElements.length === 0) return true;
+    return false;
+  });
+}
+
 // src/util.ts
 function checkFile(app, settings, file, extensions) {
   return __async(this, null, function* () {
     if (file.extension === "md") {
+      if (userHasPlugin("obsidian-excalidraw-plugin", app) && (yield checkExcalidraw(file, app)))
+        return true;
       return yield checkMarkdown(file, app, settings);
     } else if (file.extension === "canvas") {
       return yield checkCanvas(file, app);
@@ -4642,6 +4715,33 @@ function isFolderExcluded(folder, settings) {
 function isFolderIncluded(folder, settings) {
   return settings.excludedFolders.map((excludedFolder) => folder.path.match(RegExp(`^${excludedFolder}`))).filter((x) => x).length === 0;
 }
+function cleanTrashFolder(app, settings) {
+  return __async(this, null, function* () {
+    if (settings.obsidianTrashCleanupAge < 0) return;
+    if (!app.vault.adapter.exists(".trash")) return;
+    const date = /* @__PURE__ */ new Date();
+    const ageThreshold = date.setDate(
+      date.getDate() - settings.obsidianTrashCleanupAge
+    );
+    console.group("Checking '.trash' folder");
+    const trashDirectory = yield app.vault.adapter.list(".trash");
+    for (const file of trashDirectory.files) {
+      const f = yield app.vault.adapter.stat(file);
+      if (f.ctime < ageThreshold) {
+        app.vault.adapter.remove(file);
+        console.debug("Removed file:", file);
+      }
+    }
+    for (const folder of trashDirectory.folders) {
+      const f = yield app.vault.adapter.stat(folder);
+      if (f.ctime < ageThreshold) {
+        app.vault.adapter.rmdir(folder, true);
+        console.debug("Removed folder:", folder);
+      }
+    }
+    console.groupEnd();
+  });
+}
 function runCleanup(app, settings) {
   return __async(this, null, function* () {
     const indexingStart = Date.now();
@@ -4649,8 +4749,7 @@ function runCleanup(app, settings) {
     console.log(`Starting cleanup`);
     const inUseAttachmentsInitial = getInUseAttachments(app);
     inUseAttachmentsInitial.push(...yield getCanvasAttachments(app));
-    const plugins = app.plugins.plugins;
-    if (plugins.hasOwnProperty("obsidian-admonition"))
+    if (userHasPlugin("obsidian-admonition", app))
       inUseAttachmentsInitial.push(...yield getAdmonitionAttachments(app));
     const inUseAttachments = Array.from(new Set(inUseAttachmentsInitial));
     const folders = getFolders(app).filter((folder) => folder.path !== "/").sort(
@@ -4713,6 +4812,8 @@ function runCleanup(app, settings) {
       foldersToRemove.forEach((item) => console.debug(item.path));
       console.groupEnd();
     }
+    if (settings.deletionDestination === "obsidian" /* ObsidianTrash */)
+      cleanTrashFolder(app, settings);
     console.groupEnd();
   });
 }
@@ -4760,3 +4861,5 @@ moment/moment.js:
   (*! license : MIT *)
   (*! momentjs.com *)
 */
+
+/* nosourcemap */

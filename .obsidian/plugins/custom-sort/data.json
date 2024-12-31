@@ -1,6 +1,7 @@
 {
   "additionalSortspecFile": "",
-  "suspended": false,
+  "indexNoteNameForFolderNotes": "",
+  "suspended": true,
   "statusBarEntryEnabled": false,
   "notificationsEnabled": true,
   "mobileNotificationsEnabled": false,

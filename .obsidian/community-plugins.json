@@ -5,10 +5,9 @@
   "obsidian-auto-link-title",
   "obsidian-table-generator",
   "better-export-pdf",
-  "soundscapes",
   "custom-sort",
-  "file-cleaner-redux",
-  "hide-folders",
   "templater-obsidian",
-  "ribbon-divider"
+  "ribbon-divider",
+  "hide-folders",
+  "file-cleaner-redux"
 ]

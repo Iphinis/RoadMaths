@@ -20,7 +20,7 @@
           "type": "group",
           "ctime": 1724068213901,
           "items": [],
-          "title": "Ressources"
+          "title": "0. Ressources"
         },
         {
           "type": "group",
@@ -35,83 +35,77 @@
             {
               "type": "file",
               "ctime": 1724076199584,
-              "path": "Fondamentaux/Opérations.md",
+              "path": "1. Fondamentaux/2. Opérations et ensembles.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076199584,
-              "path": "Fondamentaux/Bases arithmétiques.md",
+              "path": "1. Fondamentaux/3. Logique.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076199584,
-              "path": "Fondamentaux/Logique.md",
+              "path": "1. Fondamentaux/6. Ensembles.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076199584,
-              "path": "Fondamentaux/Ensembles.md",
+              "path": "1. Fondamentaux/4. Equations et inéquations.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076199584,
-              "path": "Fondamentaux/Equations et inéquations.md",
+              "path": "1. Fondamentaux/5. Arithmétique.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076199584,
-              "path": "Fondamentaux/Arithmétique.md",
+              "path": "1. Fondamentaux/7. Complexes.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076199584,
-              "path": "Fondamentaux/Complexes.md",
+              "path": "1. Fondamentaux/5. Arithmétique.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076199584,
-              "path": "Fondamentaux/Arithmétique.md",
-              "subpath": "#^-"
-            },
-            {
-              "type": "file",
-              "ctime": 1724076199584,
-              "path": "Fondamentaux/Complexes.md",
+              "path": "1. Fondamentaux/7. Complexes.md",
               "subpath": "#^-"
             }
           ],
-          "title": "Fondamentaux"
+          "title": "1. Fondamentaux"
         },
         {
           "type": "group",
           "ctime": 1724068213901,
           "items": [],
-          "title": "Constantes"
+          "title": "2. Constantes"
         },
         {
           "type": "group",
           "ctime": 1724068213901,
           "items": [],
-          "title": "Unités"
+          "title": "3. Unités"
         },
         {
           "type": "group",
           "ctime": 1724068213901,
           "items": [],
-          "title": "Géométrie"
+          "title": "4. Géométrie"
         },
         {
           "type": "group",
           "ctime": 1724068213900,
           "items": [],
-          "title": "Algèbre"
+          "title": "5. Algèbre"
         },
         {
           "type": "group",
@@ -126,37 +120,37 @@
             {
               "type": "file",
               "ctime": 1724076274321,
-              "path": "Analyse/Limite.md",
+              "path": "6. Analyse/1. Limite.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076274321,
-              "path": "Analyse/Continuité.md",
+              "path": "6. Analyse/2. Continuité.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076274321,
-              "path": "Analyse/Dérivée.md",
+              "path": "6. Analyse/3. Dérivée.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076274321,
-              "path": "Analyse/Fonctions.md",
+              "path": "6. Analyse/Fonctions.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076274321,
-              "path": "Analyse/Trigonométrie.md",
+              "path": "6. Analyse/Trigonométrie.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076274321,
-              "path": "Analyse/Exponentielle.md",
+              "path": "6. Analyse/Exponentielle.md",
               "subpath": "#^-"
             },
             {
@@ -166,13 +160,19 @@
               "title": "Théorie de la mesure"
             }
           ],
-          "title": "Analyse"
+          "title": "6. Analyse"
         },
         {
           "type": "group",
-          "ctime": 1724068213900,
+          "ctime": 1726338773146,
           "items": [],
-          "title": "Algorithmique Numérique"
+          "title": "7. Algorithmique Numérique"
+        },
+        {
+          "type": "group",
+          "ctime": 1726343114455,
+          "items": [],
+          "title": "8. Physique"
         },
         {
           "type": "group",
