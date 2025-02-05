@@ -4092,16 +4092,18 @@ var enUS = {
         Excluded: {
           Label: "Excluded folders",
           Description: `
-          Folders that should be excluded during cleanup.
+          Folders that should be excluded during cleanup, all other folders will be scanned.
           Paths are case-sensitive.
-          One folder per line.`
+          One folder per line.
+          Supports regular expressions (wildcard matching can be done using \`.*\`)`
         },
         Included: {
           Label: "Included folders",
           Description: `
           Folders that should be included during cleanup, only these folders will be scanned.
           Paths are case-sensitive.
-          One folder per line.`
+          One folder per line.
+          Supports regular expressions (wildcard matching can be done using \`.*\`)`
         },
         Label: "Excluded / Included Folders",
         Placeholder: "Example:\nfolder/subfolder\nfolder2/subfolder2",
@@ -4128,6 +4130,10 @@ var enUS = {
           If a file contains only frontmatter and contains only these properties, the file will be removed, comma-separated.
         `,
         Placeholder: "Example:\ncreated, updated"
+      },
+      IgnoreAllFrontmatter: {
+        Label: "Ignore all frontmatter",
+        Description: "Ignores all frontmatter, including the ones set above."
       },
       PreviewDeletedFiles: {
         Label: "Preview deleted files",
@@ -4276,7 +4282,7 @@ function DeletionConfirmationModal({
       const li = ulFiles.createEl("li");
       li.createEl("a", { text: file.path });
       li.onClickEvent(() => __async(this, null, function* () {
-        const leaf = yield app.workspace.getLeaf();
+        const leaf = app.workspace.getLeaf();
         leaf.openFile(file);
       }));
     });
@@ -4323,7 +4329,8 @@ var DEFAULT_SETTINGS = {
   deletionConfirmation: true,
   runOnStartup: false,
   removeFolders: false,
-  ignoredFrontmatter: []
+  ignoredFrontmatter: [],
+  ignoreAllFrontmatter: false
 };
 var FileCleanerSettingTab = class extends import_obsidian2.PluginSettingTab {
   constructor(app, plugin) {
@@ -4443,6 +4450,20 @@ var FileCleanerSettingTab = class extends import_obsidian2.PluginSettingTab {
       text.inputEl.style.maxWidth = "18rem";
       text.inputEl.style.minHeight = "4rem";
       text.inputEl.style.maxHeight = "12rem";
+    }).setDisabled(this.plugin.settings.ignoreAllFrontmatter).controlEl.setCssStyles(
+      this.plugin.settings.ignoreAllFrontmatter && {
+        color: ""
+      }
+    );
+    new import_obsidian2.Setting(containerEl).setName(translate().Settings.RegularOptions.IgnoreAllFrontmatter.Label).setDesc(
+      translate().Settings.RegularOptions.IgnoreAllFrontmatter.Description
+    ).addToggle((toggle) => {
+      toggle.setValue(this.plugin.settings.ignoreAllFrontmatter);
+      toggle.onChange((value) => {
+        this.plugin.settings.ignoreAllFrontmatter = value;
+        this.plugin.saveSettings();
+        this.display();
+      });
     });
     new import_obsidian2.Setting(containerEl).setName(translate().Settings.RegularOptions.PreviewDeletedFiles.Label).setDesc(
       translate().Settings.RegularOptions.PreviewDeletedFiles.Description
@@ -4561,6 +4582,7 @@ function checkMarkdown(file, app, settings) {
     if (content.trim().length === 0) return true;
     const fileCache = app.metadataCache.getFileCache(file);
     if (fileCache.sections.length === 1 && fileCache.frontmatter) {
+      if (settings.ignoreAllFrontmatter) return true;
       const frontmatterKeys = Object.keys(fileCache.frontmatter);
       return frontmatterKeys.every(
         (frontmatterKey) => settings.ignoredFrontmatter.contains(frontmatterKey)

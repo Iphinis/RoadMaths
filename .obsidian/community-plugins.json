@@ -1,13 +1,10 @@
 [
   "obsidian-excalidraw-plugin",
-  "quick-latex",
   "settings-search",
   "obsidian-auto-link-title",
   "obsidian-table-generator",
   "better-export-pdf",
-  "custom-sort",
   "templater-obsidian",
-  "ribbon-divider",
   "hide-folders",
   "file-cleaner-redux"
 ]

@@ -65,7 +65,7 @@
             {
               "type": "file",
               "ctime": 1724076199584,
-              "path": "1. Fondamentaux/7. Complexes.md",
+              "path": "1. Fondamentaux/9. Complexes.md",
               "subpath": "#^-"
             },
             {
@@ -77,7 +77,7 @@
             {
               "type": "file",
               "ctime": 1724076199584,
-              "path": "1. Fondamentaux/7. Complexes.md",
+              "path": "1. Fondamentaux/9. Complexes.md",
               "subpath": "#^-"
             }
           ],
@@ -87,25 +87,25 @@
           "type": "group",
           "ctime": 1724068213901,
           "items": [],
-          "title": "2. Constantes"
+          "title": "2. Constantes et Unités"
         },
         {
           "type": "group",
           "ctime": 1724068213901,
           "items": [],
-          "title": "3. Unités"
+          "title": "6. Statistiques"
         },
         {
           "type": "group",
           "ctime": 1724068213901,
           "items": [],
-          "title": "4. Géométrie"
+          "title": "3. Géométrie"
         },
         {
           "type": "group",
           "ctime": 1724068213900,
           "items": [],
-          "title": "5. Algèbre"
+          "title": "4. Algèbre"
         },
         {
           "type": "group",
@@ -120,37 +120,25 @@
             {
               "type": "file",
               "ctime": 1724076274321,
-              "path": "6. Analyse/1. Limite.md",
+              "path": "5. Analyse/1. Limite.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076274321,
-              "path": "6. Analyse/2. Continuité.md",
+              "path": "5. Analyse/2. Continuité.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076274321,
-              "path": "6. Analyse/3. Dérivée.md",
+              "path": "5. Analyse/3. Dérivée.md",
               "subpath": "#^-"
             },
             {
               "type": "file",
               "ctime": 1724076274321,
-              "path": "6. Analyse/Fonctions.md",
-              "subpath": "#^-"
-            },
-            {
-              "type": "file",
-              "ctime": 1724076274321,
-              "path": "6. Analyse/Trigonométrie.md",
-              "subpath": "#^-"
-            },
-            {
-              "type": "file",
-              "ctime": 1724076274321,
-              "path": "6. Analyse/Exponentielle.md",
+              "path": "5. Analyse/Exponentielle.md",
               "subpath": "#^-"
             },
             {
@@ -160,7 +148,7 @@
               "title": "Théorie de la mesure"
             }
           ],
-          "title": "6. Analyse"
+          "title": "5. Analyse"
         },
         {
           "type": "group",
