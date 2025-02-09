@@ -1,1 +1,6 @@
-{}
+{
+  "enabledCssSnippets": [
+    "obsidian-show-hidden-files",
+    "style"
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "areFoldersHidden": false,
-  "matchCaseInsensitive": true,
+  "matchCaseInsensitive": false,
   "addHiddenFoldersToObsidianIgnoreList": true,
   "hideBottomStatusBarIndicatorText": true,
   "enableCompatQuickExplorer": false,

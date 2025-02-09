@@ -103,6 +103,7 @@ $$
 $$
 
 Il peut être plus aisé de visualiser l'illustration de cette opération :
+
 ![[Pasted image 20250207190827.png]]
 
 Il est important de noter qu'il faut que le nombre de colonnes de $A$ et le nombre de lignes de $B$ soient égaux pour pouvoir utiliser cette opération.

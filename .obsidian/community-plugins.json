@@ -6,5 +6,7 @@
   "better-export-pdf",
   "templater-obsidian",
   "hide-folders",
-  "file-cleaner-redux"
+  "file-cleaner-redux",
+  "obsidian42-brat",
+  "show-hidden-files"
 ]
