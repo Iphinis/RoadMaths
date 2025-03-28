@@ -1,6 +1,6 @@
 ---
 prérequis:
-  - "[[4. Opérations]]"
+  - "[[.trash/4. Opérations]]"
   - "[[3. Théorie des ensembles]]"
   - "[[6. Equations et inéquations]]"
 sources:
