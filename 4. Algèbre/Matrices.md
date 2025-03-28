@@ -1,13 +1,13 @@
 ---
 prérequis:
-  - "[[2. Opérations]]"
-  - "[[6. Ensembles]]"
-  - "[[4. Equations et inéquations]]"
+  - "[[4. Opérations]]"
+  - "[[3. Théorie des ensembles]]"
+  - "[[6. Equations et inéquations]]"
 sources:
   - https://www.mathoutils.fr/cours-et-exercices/mathematiques-expertes/calcul-matriciel/
   - https://people.richland.edu/james/lecture/m116/matrices/inverses.html
 ---
-# Introduction
+3# Introduction
 Une matrice est une structure de données sous forme de tableau de données.
 
 Par exemple :
